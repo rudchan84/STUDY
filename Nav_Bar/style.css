@@ -1,0 +1,51 @@
+body {
+    margin: 0; /* 위아래좌우 흰색 공백이 있는데 body태그에 margin이 있어서 */
+    font-family: 'Source Sans Pro'; /* index.html에서 추가한 구글폰트 적용 */
+}
+
+/* 모든 앵커 태그에 속성을 주자 */
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar {
+    display: flex; /* Flex Box로 보여줘 */
+    justify-content: space-between; /* 사이사이에 공간을 넣고 끝까지 채우기 */
+    align-items: center; /* 세로정렬 */
+    background-color: darkolivegreen;
+    padding: 8px 12px; /* 좌우로 아이콘이 너무 붙어서 띄기 위에는 8 양옆에는 12 */
+}
+
+.navbar_logo {
+    font-size: 24px; /* 로고의 글자크기 변경 */
+}
+
+.navbar_logo i {
+    color: skyblue; /* 로고의 색깔 변경 */
+}
+
+.navbar_menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0; /* 메뉴박스의 왼쪽에 공간이 있으므로 제거 */
+}
+
+.navbar_menu li {
+    padding: 8px 12px; /* 리스트 글자들이 다닥다닥 붙어있어서 띄어주기 위에는 8 양옆에는 12 
+                        마우스를 올렸을 때 하이라이트 및 클릭 영역을 넓히기 위해 margin이 아닌 padding을 사용 */
+}
+
+.navbar_menu li:hover {
+    background-color: #d49466; /* 마우스 올렸을 때 색깔로 하이라이트 */
+    border-radius: 4px; /* 하이라이트를 직각네모->둥근네모 */
+}
+
+.navbar_sns {
+    display: flex;
+    list-style: none;    
+}
+
+.navbar_sns li {
+    padding: 8px 12px;
+}
