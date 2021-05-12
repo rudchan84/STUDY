@@ -1,3 +1,5 @@
+/* Chrome F12로 공간체크를 해가며 수정진행 */
+
 body {
     margin: 0; /* 위아래좌우 흰색 공백이 있는데 body태그에 margin이 있어서 */
     font-family: 'Source Sans Pro'; /* index.html에서 추가한 구글폰트 적용 */
@@ -43,9 +45,57 @@ a {
 
 .navbar_sns {
     display: flex;
-    list-style: none;    
+    list-style: none;  
+    padding-left: 0px; /* 왼편의 빈공간 제거 */
 }
 
 .navbar_sns li {
     padding: 8px 12px;
+}
+
+.navbar_toggleBtn {
+    position: absolute; /* 로고-메뉴-SNS-햄버거버튼 흐름에서 벗어나도록 포지션변경 */
+    right: 32px; /* 오른쪽에서 32픽셀 떨어진 곳에 붙여줘 */
+    font-size: 24px;
+    color:  #d49466;
+    display: none; /* 기본적으로 안보이도록 설정 */
+}
+
+/* 662px부터 모바일형으로 */
+@media screen and (max-width: 662px) {
+    .navbar {
+        flex-direction: column; /* 네비바에 있는 정렬을 컬럼형식으로 */
+        align-items: flex-start; /* 로고,메뉴,SNS가 중간 -> 왼쪽 */
+        padding: 8px 24px; /* 하이라이트 시 여백추가하기 */
+    }
+
+    .navbar_menu {
+        flex-direction: column; /* 네비바의 메뉴들도 정렬을 컬럼형식으로 */
+        align-items: center; /* 메뉴의 글자들 왼쪽 -> 중간 */
+        width: 100%; /* 너비를 100%로 해야 중간으로 와짐 */
+        display: none; /* 너비가 줄어들면 안보이게 */
+    }
+
+    .navbar_menu li {
+        width: 100%; /* 하이라이트 효과도 너비를 넓게 */
+        text-align: center; /* 너비가 넓어지면 왼쪽으로 정렬이 되므로 중앙으로 다시 정렬 */
+    }
+
+    .navbar_sns {
+        justify-content: center;/* SNS아이콘들의 방향은 지금 Row이기 때문에 중간으로 정렬하기 위해 */
+        width: 100%; /* justify-content의 중앙으로 오게 하려면 너비 100% */
+        margin: 0%; /* 위아래 공백이 있길래 제거 */
+        display: none; /* 너비가 줄어들면 안보이게 */
+    }
+
+    .navbar_toggleBtn {
+        display: block; /* 너비가 줄어들면 나타남 */
+    }
+
+    /* navbar_menu가 active이거나 navbar_sns가 active일 때 display는 flex */
+    .navbar_menu.active,
+    .navbar_sns.active {
+        display: flex;
+    }
+    
 }
