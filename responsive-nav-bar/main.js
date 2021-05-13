@@ -3,7 +3,7 @@
 //요즘에는 기본적인 API들이 잘 되어 있기 때문에 더이상 jquery를 사용하지 않아도 됨
 const toggleBtn = document.querySelector('.navbar_toggleBtn');
 const menu = document.querySelector('.navbar_menu');
-const SNS = Document.querySelector('.navbar_sns');
+const SNS = document.querySelector('.navbar_sns'); /* D가 대문자로 되어 있었더니 기능동작안함 */
 
 // addEventListener API를 이용해서 toggleBtn이 클릭될 때마다 이벤트를 처리
 // click이 될 때마다 우리가 지정하는 이 함수를 호출해줘
