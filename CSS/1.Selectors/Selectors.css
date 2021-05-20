@@ -1,0 +1,23 @@
+* {
+  color: green
+}
+
+li {
+  color: Blue
+}
+
+li#special { /*li와 #id를 합해서 사용가능*/
+  color: pink
+}
+
+.red {
+  width : 100px;
+  height: 24px;
+  background: yellow;
+  border: 2px dashed red
+}
+
+button:hover {
+  color: red;
+  background: gray;
+}

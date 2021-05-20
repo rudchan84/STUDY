@@ -1,0 +1,25 @@
+div {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 20px;
+  background: red;
+}
+
+.container {
+  background: yellow;
+  left: 20px; /*relative 일때 동작함*/
+  top: 20px; /*relative 일때 동작함*/
+  position: relative; /* 원래 있어야 할 자리에서 left20 top20 씩 이동함 */
+}
+
+.box {
+  background: pink;
+  left: 20px; /*absolute 일때 동작함*/
+  top: 20px; /*absolute 일때 동작함*/
+  position: absolute; /* 담겨있던 BOX(container)안에서 left20 top20의 위치로 이동 */
+}
+
+/*
+position: fixed container 안에도 아닌 완전 밖에서 이동
+sticky: 스크롤 해도 남아잇는 속성
+*/

@@ -1,0 +1,90 @@
+/* .container에서 100%를 쓰기 위해서 아래도 추가해줘야
+모두 베이지색으로 칠이 된다
+body를 100%로 해도 채워지지 않는데 그 이유는
+그 부모인 html이 100%가 아니기 때문
+
+body,html {
+  height: 100%
+}
+
+*/
+
+.container {
+  background: beige;
+  height: 60vh;
+  /* height: 100%; 100vh; 차이는
+  %는 container의 부모인 body에 맞게 높이를 지정하여 색을 채움
+  
+  그래서 부모를 100%로 지정하지 않고 편하게 사용하기 위해 
+  vh(View height)을 쓴다.
+  100vh(100%), 80vh(80%)
+  */
+  
+  display: flex; /* 넌 Flex Box야 */
+  flex-direction: row; /* default:row (중심축 가로)
+    column (중심축 세로)
+    column-reverse (중심축 세로역순)
+    */
+  flex-wrap: wrap;/* default:nowrap (아무리 너비가 좁아져도 아이템들이 붙어있음)
+    wrap (아이템들이 꽉차면 다음 Line으로 넘어감)
+    wrap-reverse (반대로)
+    */
+    
+  /*flex-flow: column nowrap;
+    flex-direction + flex-wrap 합해서 사용할 수 있음
+    */
+  justify-content: space-between;
+  /* 중심축에서 아이템들을 어떻게 배치할 것인가?
+    default: flex-start 왼쪽에서 오른쪽으로, 위에서 아래로
+    flex-end 순서는 유지하고 오른쪽(아래)으로 붙이기
+    center 중간
+    space-around item에 space를 준다. 간격을 띄기
+    space-evenly item에 제일 좌우 및 간격에 똑같은 간격을 넣어준다
+    space-between 좌우는 공간을 안주고 아이템간격에만 공간을 준다
+  */
+  align-items: baseline; /* 반대축에서 아이템들을 어떻게 배치할 것인가?
+  baseline (각 item의 크기가 달라 text가 삐뚫어졌을 때 text를 맞춰준다)
+  center (중간에)
+  */
+  align-content: center;/* 반대축의 아이템들을 어떻게 배치할 것인가?
+  test를 위해 flex-wrap을 wrap으로 하고 진행
+    
+  */
+}
+
+.item {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+}
+
+.item1 {
+  background: #ef9a9a;
+}
+.item2 {
+  background: #f48fb1;
+}
+.item3 {
+  background: #ce93d8;
+}
+.item4 {
+  background: #b39ddb;
+}
+.item5 {
+  background: #90caf9;
+}
+.item6 {
+  background: #a5d6a7;
+}
+.item7 {
+  background: #ef9a9a;
+}
+.item8 {
+  background: #ef9a9a;
+}
+.item9 {
+  background: #ef9a9a;
+}
+.item10 {
+  background: #ef9a9a;
+}
