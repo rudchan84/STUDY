@@ -1,0 +1,247 @@
+:root {
+  /* Color */
+  --white-color: #fff;
+  --black-color: #140a00;
+  --blue-color: #045fd4;
+  --red-color: #ff0000;
+  --grey-dark-color: #909090;
+  --grey-light-color: #e0e0e0;
+
+  /* Size */
+  --padding: 12px;
+  --avatar-size: 36px;
+
+  /* Font Size */
+  --font-large: 18px;
+  --font-medium: 14px;
+  --font-small: 12px;
+  --font-micro: 10px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; /* padding이나 margin을 줬을 때 그것이 포함되어 사이즈가 결정이 되도록 */
+}
+
+body {
+  font-family: Roboto;
+}
+
+/* 모든 리스트 타입 none */
+ul {
+  list-style: none;
+}
+
+button,
+button:focus {
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--padding);
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+header .logo {
+  font-size: var(--font-large);
+}
+
+header .logo i {
+  color: var(--red-color);
+}
+
+header .icons .fa-search {
+  margin-right: var(--padding);
+}
+
+/* Video Player */
+.player {
+  position: sticky; /* 아래로 스크롤링 되어도 움직이지 말고 붙어있어 */
+  top: 0; /* sticky 시 맨위에 붙어있어 */
+  text-align: center; /* 1000px 이상의 비디오를 중간으로 */
+  background-color: var(--black-color);
+}
+
+.player video {
+  width: 100%;
+  height: 100%;
+  max-width: 1000px;
+}
+
+/* info */
+.infoAndUpnext > .info {
+  padding: var(--padding);
+}
+
+.info .metadata .hashtags {
+  display: flex;
+  font-size: var(--font-small);
+  color: var(--blue-color);
+}
+
+.info .metadata .hashtags li {
+  margin-right: var(--padding);
+}
+
+.info .metadata .titleAndButton {
+  display: flex;
+}
+
+.info .metadata .titleAndButton .title {
+  font-size: var(--font-medium);
+  margin-right: var(--padding);
+}
+
+/* Javascript와 연결 */
+.info .metadata .titleAndButton .title.clamp {
+  /* CSS line clamp 로 검색 제목 2줄로 고정하기 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.info .metadata .titleAndButton .moreBtn {
+  height: 100%;
+  transition: transform 300ms ease-in-out; /* 애니메이션 */
+}
+
+/* more 버튼 눌렀을 때 위아래 방향바꾸기 */
+.info .metadata .titleAndButton .moreBtn.clicked {
+  transform: rotate(180deg);
+}
+
+.info .metadata .views {
+  font-size: var(--font-small);
+  color: var(--grey-dark-color);
+}
+
+/* Action Buttons */
+.info .actions {
+  display: flex;
+  justify-content: space-around;
+  margin: var(--padding) 0;
+}
+
+.info .actions button {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-small);
+  color: var(--grey-dark-color);
+}
+
+.info .actions button i {
+  margin: 0 auto; /* 좌우는 0 위아래는 auto로 하면 아이콘이 중간으로 가는 좋은 Tip */
+  margin-bottom: calc(var(--padding) / 2);
+  font-size: 16px;
+}
+
+.info .actions button i.active {
+  color: var(--blue-color);
+}
+
+/* Channel Description */
+.info .channel {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--grey-light-color); /* 경계선 */
+  border-bottom: 1px solid var(--grey-light-color); /* 경계선 */
+}
+
+.info .channel .metadata {
+  display: flex;
+  align-items: center; /* 로고 이미지 위 -> 중간 */
+  padding: calc(var(--padding) / 2); /* 로고 위아래 구분선 띄우기 */
+}
+
+.info .channel .metadata img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  margin-right: var(--padding);
+}
+
+.info .channel .metadata .info {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-medium);
+}
+
+.info .channel .metadata .info .subscribers {
+  font-size: var(--font-small);
+  color: var(--grey-dark-color);
+}
+
+.info .channel .subscribe {
+  text-transform: uppercase;
+  color: var(--red-color);
+  font-size: var(--font-medium);
+}
+
+/* Up next */
+.upnext {
+  padding: 0 var(--padding);
+}
+
+.upnext > .title {
+  /* 바로 밑 자식노드만 선택하는 > 기호 */
+  font-size: var(--font-medium);
+  color: var(--grey-dark-color);
+  margin-bottom: calc(var(--padding) / 2);
+}
+
+.upnext .item {
+  display: flex;
+  /*height: 100%;*/
+  margin-top: var(--padding);
+}
+
+.upnext .item .img {
+  flex: 1 1 35%;
+  margin-right: var(--padding);
+}
+
+.upnext .item .img img {
+  width: 100%;
+}
+
+.upnext .item .iteminfo {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.upnext .item .moreBtn {
+  flex: 1 1 5%;
+  height: 100%;
+}
+
+.upnext .item .iteminfo .title {
+  font-size: var(--font-small);
+}
+
+.upnext .item .iteminfo .name,
+.upnext .item .iteminfo .views {
+  font-size: var(--font-small);
+  color: var(--grey-dark-color);
+}
+
+/* 평소 동작 */
+.infoAndUpnext {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 768px) /* 화면이 768픽셀 이상일 때 */ {
+  .infoAndUpnext {
+    flex-direction: row;
+    /*margin: var(--padding) 0;*/
+  }
+}

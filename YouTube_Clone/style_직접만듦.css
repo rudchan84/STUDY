@@ -1,0 +1,152 @@
+body {
+  margin: 0; /* 위아래좌우 흰색 공백이 있는데 body태그에 margin이 있어서 */
+  font-family: "Source Sans Pro"; /* index.html에서 추가한 구글폰트 적용 */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 24px; /* 좌우 여백 */
+  background: black;
+  color: white;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+}
+
+.navbar_logo i {
+  color: red;
+}
+
+.navbar_menu,
+.videoinfo_icons,
+.videoinfo_iconsinfo {
+  display: flex;
+  list-style: none;
+  padding-left: 0px;
+  justify-content: space-between;
+}
+
+.videoinfo_icons {
+  font-size: 20px;
+  margin: 14px 22px 0px 14px;
+  text-align: center; /* BOX안 TEXT를 가운데로 */
+}
+
+.videoinfo_icons1,
+.videoinfo_icons2,
+.videoinfo_icons3,
+.videoinfo_icons4,
+.videoinfo_icons5 {
+  padding-left: 0px;
+  list-style: none;
+  color: gray;
+}
+
+.navbar_menu li {
+  padding: 0px 5px;
+}
+
+.video {
+  width: 100%;
+  height: 30%;
+}
+
+.videoinfo {
+  padding-left: 8px;
+}
+
+.videoinfo_hashtag {
+  color: blue;
+}
+
+.videoinfo_title {
+  font-size: 20px;
+}
+
+.videoinfo_viewinfo {
+  color: gray;
+  font-size: 12px;
+}
+
+.Channelinfo {
+  justify-content: space-between;
+  padding-left: 8px;
+  padding-right: 8px;
+  display: flex;
+}
+
+.Channelinfo i {
+  font-size: 36px;
+}
+
+.Channelinfo_main {
+  margin: 0px;
+  padding-left: 12px;
+}
+
+.Channelinfo_title,
+.Channelinfo_subinfo {
+  list-style: none;
+}
+.Channelinfo_subinfo {
+  color: gray;
+  font-size: 12px;
+}
+
+.Channelinfo_subbtn {
+  color: red;
+  flex-direction: row-reverse;
+  align-self: center;
+}
+
+.Channelinfo_blank {
+  flex-grow: 10;
+}
+
+hr {
+  padding-left: 8px;
+}
+
+.nextvideos_comment {
+  color: gray;
+}
+
+/* Up next */
+.nextvideos_container {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.nextvideos {
+  padding-top: 12px;
+  display: flex;
+}
+
+.nvideodetail {
+  margin: 0px;
+  padding-left: 4px;
+  padding-right: 5px;
+  list-style: none;
+}
+
+.channelname {
+  color: gray;
+  font-size: 12px;
+}
+.views {
+  color: gray;
+  font-size: 10px;
+}
+
+/* 640px부터 PC형으로 */
+/*
+@media screen and (min-width: 640px) {
+  .nextvideos_container {
+    display: flex;
+  }
+}
+*/
