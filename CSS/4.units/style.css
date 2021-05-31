@@ -1,0 +1,48 @@
+/* em rem 을 사용하여 사용자의 브라우저에서 font-size를 변경하여도 
+적용이 되도록 해보자 */
+
+.logo {
+  color: #39d99d;
+  text-align: center;
+  font-size: 3em;
+}
+
+.container {
+  display: flex;
+  padding: 2em;
+  justify-content: space-between;
+}
+
+.container .item {
+  border: 1px solid;
+}
+
+.container .item1 {
+  margin-right: 10px;
+}
+
+.container .item .title {
+  background: burlywood;
+  font-size: 2rem; /* 제목은 부모에 영향받지 않도록 rem을 사용하자 */
+  padding: 0.5em; /* 폰트사이즈가 만약 변경된다면 그에맞게 패딩도 변경되도록 em을 사용하자 */
+}
+
+.container .item .contents {
+  font-size: 1.125rem;
+  padding: 1em;
+}
+
+@media screen and (max-width: 56.9375rem /*911px rem을 이용하여 사용자가 텍스트 크기를 키워도 미디어쿼리가 실행되는 크기도 반응형으로 된다! */) {
+  .container {
+    flex-direction: column;
+  }
+
+  .container .item1 {
+    margin-right: 0px;
+    margin-bottom: 10px;
+  }
+}
+
+/* 
+드림코딩 by 엘리 깃허브 코드
+https://github.com/dream-ellie/css-responsive-units */
