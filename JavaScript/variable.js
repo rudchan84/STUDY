@@ -5,7 +5,7 @@ console.log('Hello World!');
 // use this for Vanila JavaScript.
 'use strict';
 
-// 2. Variable (변수:변경될 수 있는 값)
+// 2. Variable (변수:변경될 수 있는 값), rw(read/write)
 // let (added in ES6) (변수선언)
 // Block scope : Block {} 밖에서 변수를 볼 수 없다.
 {
@@ -30,13 +30,20 @@ age = 4;
 var age;
 console.log(age);
 
-// 3. Constant (변경불가 데이터타입 Immutable datatype)
+// 3. Constant (변경불가 데이터타입 Immutable datatype) / r(read only)
+// use const whenever possible.
+// only use let if variable needs to change.
+const daysInWeek = 7;
+const maxNumber = 5;
+
+// Note !
+// Immutable data types(변경불가): primitive types, frozen objects (i.e. object.freeze())
+// Mutable data types(변경가능): all objects by default are mutable in JS
 // favor immutable data type always for a few reasons:
 //  - security
 //  - thread safety (여러 쓰레드에서 값을 변경하는 로직이 있다면 오류를 초래할 수 있다)
 //  - reduce human mistakes
-const daysInWeek = 7;
-const maxNumber = 5;
+
 
 // =================================================================================================================
 // 4. Variable types (data type)
