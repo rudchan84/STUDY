@@ -1,3 +1,4 @@
+// 자바스크립트 5. Arrow Function은 무엇인가? 함수의 선언과 표현
 // Function
 // - fundamental building block in the program (프로그램을 구성하는 기본적인 building block)
 // - SubProgram can be used multiple times (여러번 재사용 가능한 장점)
@@ -171,22 +172,22 @@ const calculate = (command, a, b) => {
 	switch (command) {
 	case 'add':
 		return a + b;
-		break;
+		//break;
 	case 'substract':
 		return a - b;
-		break;
+		//break;
 	case 'divide':
 		return a / b;
-		break;
+		//break;
 	case 'multiply':
 		return a * b;
-		break;
+		//break;
 	case 'remainder':
 		return a % b;
-		break;
+		//break;
 	default:
 		return 'unknown command!';
-		break;
+		//break;
 	}
 }
 console.log(calculate('rem1ainder',5,2));
