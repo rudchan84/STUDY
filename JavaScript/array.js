@@ -111,3 +111,24 @@ console.log(popitem); // 잘라진 데이터가 나온닷
 const pushnum = fruits.push('🍄');
 console.log(fruits.toString());
 console.log(pushnum) // push는 INSERT 후 최종 개수를 return한다
+
+const concat01 = fruits.concat(meats);
+console.log(concat01);
+
+// Join 배열 안의 모든 elements를 string으로 return하는 것 (입력받은 변수를 구분자로 입력)
+// separator? 의 ?는 전달해도 되고 안해도 된다는 의미
+// Default : , 이며 다른 값 입력 시 , 대신 들어감
+const join01 = fruits.join(['a','ab']);
+console.log(fruits); 
+console.log(join01); // 🍉a,ab🍅a,ab🍉a,ab🍌a,ab🍓a,ab🍑a,ab🍄
+
+const revers01 = fruits.reverse();
+console.log(fruits.toString()); 
+console.log('reverse : ' + revers01.toString()); // 🍄,🍑,🍓,🍌,🍉,🍅,🍉
+
+const slice01 = fruits.slice(0,2); // 0 (Default 0),1 (Default 끝까지) index의 데이터
+console.log(fruits); 
+console.log(slice01.toString());
+
+
+
