@@ -11,15 +11,15 @@ const USERNAME_KEY = "username"
 function onLoginSubmit(event){
 	event.preventDefault();
 	loginForm.classList.add(HIDDEN_CLASSNAME);
-	const username = loginFormInput.value;
-	localStorage.setItem(USERNAME_KEY, username);
+	localStorage.setItem(USERNAME_KEY, loginFormInput.value);
 	//loginSayHello.innerHTML = 'Hello ' + username; //아래 형식으로 사용하자
 	// greeting.innerText = `Hello ${username}`;
 	// greeting.classList.remove(HIDDEN_CLASSNAME);
-	paintGreeting(username);
+	paintGreeting();
 }
 
-function paintGreeting (username) {
+function paintGreeting () {
+	const username = localStorage.getItem(USERNAME_KEY);
 	greeting.innerText = `Hello ${username}`;
 	greeting.classList.remove(HIDDEN_CLASSNAME);
 }
@@ -35,6 +35,6 @@ if (savedUsername === null) {
 	loginForm.addEventListener("submit", onLoginSubmit)
 }	else {
 	//show the greetings
-	paintGreeting(savedUsername);
+	paintGreeting();
 	}
 
