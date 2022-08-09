@@ -14,12 +14,15 @@ function deleteToDo(event){
   //아래 2가지 같은 기능을 하지만 parentElement 가 코드를 슥 봤을 때 이해하기 쉬움!
   event.target.parentElement.remove();
   //event.path[1].remove();
+  console.dir(event.target.parentElement.id);
+
 }
 
 function paintToDo(newToDo) {
   const newToDoLi = document.createElement("li");
   const newToDoLiSpan = document.createElement("span");
-  newToDoLiSpan.innerText = newToDo;
+  newToDoLiSpan.innerText = newToDo.text;
+  newToDoLi.id = newToDo.id;
   const delBtn = document.createElement("button");
   delBtn.innerText = "❌";
   delBtn.addEventListener("click",deleteToDo)
@@ -34,8 +37,9 @@ function handleToDoSubmit(event) {
   event.preventDefault();
   const newToDo = toDoFormInput.value;
   toDoFormInput.value = "";
-  toDos.push(newToDo);
-  paintToDo(newToDo);
+  const newToDoObj = {text: newToDo, id: Date.now()};
+  toDos.push(newToDoObj);
+  paintToDo(newToDoObj);
   saveToDos();
 }
 
