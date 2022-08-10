@@ -12,10 +12,19 @@ function saveToDos(){
 
 function deleteToDo(event){
   //아래 2가지 같은 기능을 하지만 parentElement 가 코드를 슥 봤을 때 이해하기 쉬움!
-  event.target.parentElement.remove();
+  //event.target.parentElement.remove();
   //event.path[1].remove();
-  console.dir(event.target.parentElement.id);
 
+  const li = event.target.parentElement;
+  li.remove();
+  
+  //console.dir(event.target.parentElement.id);
+
+  toDos = toDos.filter((item) => (item.id) !== parseInt(li.id));
+
+  //toDos = toDos.filter((item) => item.id === event.target.parentElement.id);
+  //toDos = toDos.filter((item) => console.log(item.id, 'ddd', event.target.parentElement.id));
+  saveToDos();
 }
 
 function paintToDo(newToDo) {
