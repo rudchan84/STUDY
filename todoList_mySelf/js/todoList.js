@@ -7,7 +7,8 @@ const TODO_KEY = "todo";
 function paintTodo(todoItem) {
   //li tag create
   const todoLiHTML = document.createElement("li");
-  todoLiHTML.innerText = todoItem;
+  todoLiHTML.innerText = todoItem.todo;
+  todoLiHTML.id = todoItem.id;
   todoListHTML.appendChild(todoLiHTML);
 
   //del button create
@@ -20,10 +21,11 @@ function paintTodo(todoItem) {
 
 function delTodo(event) {
   const delLiHTML = event.target.parentElement;
-
   delLiHTML.remove();
 
-//  console.log(event);
+  const delId = event.target.parentElement.id;
+  const filteredTodoArray = todoArray.filter(todo => todo.id !== parseInt(delId));
+  localStorage.setItem(TODO_KEY,JSON.stringify(filteredTodoArray));
 }
 
 function onSubmitTodo(event) {
@@ -32,12 +34,11 @@ function onSubmitTodo(event) {
   todoInputHTML.value = "";
 
   //todoArray save
-  todoArray.push({todo:inputedTodo, id:Date.now()});
+  const submitTodo = {todo:inputedTodo, id:Date.now()}
+  todoArray.push(submitTodo);
   localStorage.setItem(TODO_KEY,JSON.stringify(todoArray));
 
-  paintTodo(inputedTodo);
-
-  console.log(todoArray);
+  paintTodo(submitTodo);
 }
 
 todoFormHTML.addEventListener("submit",onSubmitTodo);
@@ -47,6 +48,6 @@ let todoArray = [];
 //localStorage 에 todo가 있으면
 if (localStorage.getItem(TODO_KEY) !== null) {
   todoArray = JSON.parse(localStorage.getItem(TODO_KEY));
-  todoArray.forEach(todoItem => paintTodo(todoItem.todo));
+  todoArray.forEach(todoItem => paintTodo(todoItem));
 }
 
