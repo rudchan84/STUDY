@@ -23,7 +23,7 @@ function delTodo(event) {
   const delLiHTML = event.target.parentElement;
   delLiHTML.remove();
 
-  const delId = event.target.parentElement.id;
+  const delId = delLiHTML.id;
   const filteredTodoArray = todoArray.filter(todo => todo.id !== parseInt(delId));
   localStorage.setItem(TODO_KEY,JSON.stringify(filteredTodoArray));
 }
