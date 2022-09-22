@@ -1,0 +1,109 @@
+# Noom (zoom clone coding)
+
+Zoom Clone using NodeJS, WebRTC and Websockets
+
+#### 2022.09.22
+
+##### Server Setup
+
+`mkdir zoom_clone` 폴더 생성
+`npm init -y` 실행
+자동으로 package.json 파일이 생성
+
+> npm
+
+npm 이 무엇인가? > node.js 를 설치하면 사용할 수 있는 기능
+npm (노드 패키지 매니저/Node Package Manager)은 자바스크립트 프로그래밍 언어를 위한 패키지 관리자이다
+https://ko.wikipedia.org/wiki/Npm_(%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4)
+
+---
+
+package.json 파일 수정
+
+    {
+    	"name": "zoom_clone",
+    	"version": "1.0.0",
+    	"description": "Zoom Clone using NodeJS, WebRTC and Websockets",
+    	"license": "JKC",
+    }
+
+---
+
+nodemon 설치
+`npm i nodemon -D`
+
+---
+
+파일 생성
+babel.config.json
+nodemon.json
+src/server.js
+
+폴더생성
+src
+
+---
+
+babel 설치
+`npm i @babel/core @babel/cli @babel/node -D`
+`npm i @babel/preset-env -D`
+
+---
+
+nodemon.json 파일 수정
+nodemon은 "exec" 명령어를 이용해서 아래 하나만 실행하도록
+src/server.js 에 대해 babel-node 명령문을 실행시키는 것
+
+    {
+      "exec": "babel-node src/server.js"
+    }
+
+---
+
+babel.config.json 파일 수정
+사용할 유일한 preset
+
+    {
+      "presets": ["@babel/preset-env"]
+    }
+
+---
+
+package.json 에 추가
+nodemon 이 호출되면 nodemon이 nodemon.json을 살펴보고 있는 코드를 실행
+
+      "scripts": {
+        "dev": "nodemon"
+      },
+
+---
+
+express 설치
+
+`npm i express`
+
+pug 설치
+
+`npm i pug`
+
+---
+
+server.js 수정
+
+    import express from "express";
+
+    const app = express();
+
+    console.log('hello');
+
+    app.listen(3000);
+
+---
+
+실행
+
+`npm run dev`
+
+---
+
+#### Frontend Setup
