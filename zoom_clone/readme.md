@@ -20,16 +20,21 @@ https://ko.wikipedia.org/wiki/Npm_(%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4
 
 package.json 파일 수정
 
-    {
-    	"name": "zoom_clone",
-    	"version": "1.0.0",
-    	"description": "Zoom Clone using NodeJS, WebRTC and Websockets",
-    	"license": "JKC",
-    }
+```
+{
+  "name": "zoom_clone",
+  "version": "1.0.0",
+  "description": "Zoom Clone using NodeJS, WebRTC and Websockets",
+  "license": "JKC",
+}
+```
 
 ---
 
 nodemon 설치
+(우리의 프로젝트에 변경사항이 생긴 경우 서버를 재시작 해주는 프로그램)
+(nodemon.json 파일에 적어 놓았듯이 서버를 재시작 하는 대신 babel-node를 실행
+nodemon.json 파일에 적어 놓았듯이 이 작업을 src/server.js 파일에 해줌)
 `npm i nodemon -D`
 
 ---
@@ -37,7 +42,7 @@ nodemon 설치
 파일 생성
 babel.config.json
 nodemon.json
-src/server.js
+src/server.js : BackEnd에서 구동되는 파일
 
 폴더생성
 src
@@ -45,6 +50,7 @@ src
 ---
 
 babel 설치
+(우리가 작성한 코드를 일반 NodeJS 코드로 컴파일 해줌)
 `npm i @babel/core @babel/cli @babel/node -D`
 `npm i @babel/preset-env -D`
 
@@ -54,27 +60,33 @@ nodemon.json 파일 수정
 nodemon은 "exec" 명령어를 이용해서 아래 하나만 실행하도록
 src/server.js 에 대해 babel-node 명령문을 실행시키는 것
 
-    {
-      "exec": "babel-node src/server.js"
-    }
+```
+{
+  "exec": "babel-node src/server.js"
+}
+```
 
 ---
 
 babel.config.json 파일 수정
 사용할 유일한 preset
 
-    {
-      "presets": ["@babel/preset-env"]
-    }
+```
+{
+  "presets": ["@babel/preset-env"]
+}
+```
 
 ---
 
 package.json 에 추가
 nodemon 이 호출되면 nodemon이 nodemon.json을 살펴보고 있는 코드를 실행
 
-      "scripts": {
-        "dev": "nodemon"
-      },
+```
+"scripts": {
+  "dev": "nodemon"
+},
+```
 
 ---
 
@@ -90,13 +102,15 @@ pug 설치
 
 server.js 수정
 
-    import express from "express";
+```
+import express from "express";
 
-    const app = express();
+const app = express();
 
-    console.log('hello');
+console.log('hello');
 
-    app.listen(3000);
+app.listen(3000);
+```
 
 ---
 
@@ -107,3 +121,16 @@ server.js 수정
 ---
 
 #### Frontend Setup
+
+app.js 생성 : FrontEnd에서 구동되는 파일
+home.pug 생성
+
+```
+src/public/js/app.js
+src/views/home.pug
+```
+
+---
+
+Express로 할 일은 views를 설정, render 만 하고
+나머지는 websocket에서 실시간으로

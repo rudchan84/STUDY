@@ -1,3 +1,7 @@
 {
+  "//": "ignore : user한테만 보여지는 FrontEnd에 사용되는 app.js를 저장할 때마다",
+  "//": "nodemon이 재시작 되어서, views나 서버를 수정할 때만 재시작 되게 하기",
+  "//": "src/public 폴더와 그 안의 모든 것을 무시",
+  "ignore": ["src/public/*"],
   "exec": "babel-node src/server.js"
 }
