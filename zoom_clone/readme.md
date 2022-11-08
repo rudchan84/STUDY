@@ -134,3 +134,17 @@ src/views/home.pug
 
 Express로 할 일은 views를 설정, render 만 하고
 나머지는 websocket에서 실시간으로
+
+---
+
+#### 2022.10.04
+
+##### WS Install
+
+> WS 란?
+
+a Node.js WebSocket library
+
+`npm i ws`
+
+http 서버와 ws 서버가 같은 port를 사용하도록 같이 만들어 두었다.
