@@ -1,44 +1,28 @@
-// 여기는 frontEnd
 
-// backend와 연결하기 
-const messageList = document.querySelector("ul");
-const messageForm = document.querySelector("#message");
-const nickForm = document.querySelector("#nickname");
-const socket = new WebSocket(`ws://${window.location.host}`);
+//io() : 자동으로 back-end socket.io와 연결해 주는 fn
+const socket = io();
 
-//msg를 obj로 만들어서 string으로 보내보자
-function makeMessage(type, payload){
-  const msg = {type, payload};
-  return JSON.stringify(msg);
-}
+const welcome = document.querySelector("#welcome");
+const form = welcome.querySelector("form");
 
-socket.addEventListener("open", () => {
-  console.log('Connected to Server ✅');
-});
-
-socket.addEventListener("message", (message) => {
-  const li = document.createElement("li");
-  li.innerText = message.data;
-  messageList.append(li);
-});
-
-socket.addEventListener("close", () => {
-  console.log('Disconnected From Server');
-});
-
-function handleSubmit(event) {
+function handleRoomSubmit(event){
   event.preventDefault();
-  const input = messageForm.querySelector("input");
-  socket.send(makeMessage("new_message", input.value));
-  input.value = "";
+  const input = form.querySelector("input");
+  socket.emit("enter_room", {payload : input.value}, (msgFromBack) => {
+    console.log(`front-end's fn! / msg From Back : ${msgFromBack}`);
+  });
+  /*
+  emit의 input argument 설명
+  첫변수(event명): enter_room은 내가 정하는 것
+  중산변수: string 뿐 아니라 object도 전송가능
+  마지막변수: 콜백함수(must last argument, front-end에서 실행됨), back-end에서 보낸 argument를 받을 수 있음
+  
+  input argument 개수
+  socket.emit("event_name", 1, 2, true, false) // 이처럼 여러 인자를 back-end로 보낼 수도 있음
+
+  front와 back의 연결
+  front의 emit 이벤트명과 back의 on의 이벤트명에 같은 이름을 사용해야 함
+  */
 }
 
-function handleNickSubmit(event){
-  event.preventDefault();
-  const input = nickForm.querySelector("#nickname input");
-  socket.send(makeMessage("nickname",input.value));
-  input.value = "";
-}
-
-messageForm.addEventListener("submit", handleSubmit);
-nickForm.addEventListener("submit", handleNickSubmit);
+form.addEventListener("submit", handleRoomSubmit);

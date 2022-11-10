@@ -1,7 +1,8 @@
 //▼express를 import하고 express application을 구성
 import express from "express";
+import SocketIO from "socket.io";
 import http from "http";
-import WebSocket from "ws";
+//import WebSocket from "ws";
 
 const app = express();
 //▲
@@ -24,7 +25,8 @@ app.get("/*", (req, res) => res.redirect("/"));
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+//const wss = new WebSocket.Server({ server });
+const io = SocketIO(server);
 
 // ▼ vanilla JS 의 형식
 //function handleConnection(socket) {
@@ -37,7 +39,7 @@ const wss = new WebSocket.Server({ server });
 //wss.on("connection", handleConnection);
 // ▲
 
-const sockets = [];
+/* const sockets = [];
 
 wss.on("connection", (socket) => {
   sockets.push(socket);
@@ -54,9 +56,14 @@ wss.on("connection", (socket) => {
         console.log(socket["nickname"]);
     }
   });
-});
+}); */
 
-
+io.on("connection", (socket) => {
+  socket.on("enter_room", (roomName, done) => {
+    console.log(roomName);
+    setTimeout(() => {done("hello I'm Back.");}, 2000);
+  })
+})
 
 server.listen(3000, handleListen);
 //app.listen(3000, handleListen);

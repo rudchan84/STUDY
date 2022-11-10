@@ -148,3 +148,18 @@ a Node.js WebSocket library
 `npm i ws`
 
 http 서버와 ws 서버가 같은 port를 사용하도록 같이 만들어 두었다.
+
+#### 2022.11.10
+
+##### SOCKET.IO Framework
+
+> SOCKET.IO
+
+Front-end 와 Back-end 간 실시간 통신을 가능하게 해주는 Framework
+실시간 기능을 더 쉽게 만드는 편리한 코드를 제공한다
+websocket을 사용하기도 하고, websocket에 지원 안되는 곳에서는 다른 방식으로 통신을 한다
+websocket의 부가 기능이 아니다
+
+##### SOCKET.IO Install
+
+npm i socket.io
