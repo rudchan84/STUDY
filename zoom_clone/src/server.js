@@ -59,9 +59,14 @@ wss.on("connection", (socket) => {
 }); */
 
 io.on("connection", (socket) => {
+  socket.onAny((event) => {
+    console.log(`>> socket event: ${event}`);
+  })
   socket.on("enter_room", (roomName, done) => {
-    console.log(roomName);
-    setTimeout(() => {done("hello I'm Back.");}, 2000);
+    console.log(socket.rooms);
+    socket.join(roomName);
+    console.log(socket.rooms);
+    done();
   })
 })
 
