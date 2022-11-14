@@ -61,14 +61,25 @@ wss.on("connection", (socket) => {
 io.on("connection", (socket) => {
   socket.onAny((event) => {
     console.log(`>> socket event: ${event}`);
-  })
+  });
   socket.on("enter_room", (roomName, done) => {
     console.log(socket.rooms);
     socket.join(roomName);
     console.log(socket.rooms);
     done();
-  })
-})
+    socket.to(roomName).emit("welcome"); //방에 메세지 보내기, document 참고
+  });
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach((room) => {
+      console.log(`bye: ${room}`);
+      socket.to(room).emit("bye");
+    });
+  });
+  socket.on("send_message", (message, roomName, done) => {
+    socket.to(roomName).emit("show_message", message);
+    done();
+  });
+});
 
 server.listen(3000, handleListen);
 //app.listen(3000, handleListen);
