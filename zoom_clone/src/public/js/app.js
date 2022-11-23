@@ -19,7 +19,7 @@ function addMessage(message) {
 
 function handleMessageSubmit(event){
   event.preventDefault();
-  const input = room.querySelector("input");
+  const input = room.querySelector("#msg input");
   const value = input.value;
   socket.emit("send_message", value, roomName, () => addMessage(`You: ${value}`));
   input.value = "";
@@ -30,14 +30,15 @@ function showRoom() {
   room.hidden = false;
   const h3 = room.querySelector("h3");
   h3.innerText = `Room: ${roomName}`;
-  const form = room.querySelector("form");
-  form.addEventListener("submit", handleMessageSubmit);
+  const msgForm = room.querySelector("#msg");
+  msgForm.addEventListener("submit", handleMessageSubmit);
 }
 
 function handleRoomSubmit(event){
   event.preventDefault();
-  const input = welcome.querySelector("input");
-  socket.emit("enter_room", input.value, showRoom);
+  const roomInput = document.querySelector("#roomname");
+  const nickName = document.querySelector("#nick");
+  socket.emit("enter_room", roomInput.value, nickName.value, showRoom);
   /*
   emit의 input argument 설명
   첫변수(event명): enter_room은 내가 정하는 것
@@ -50,18 +51,17 @@ function handleRoomSubmit(event){
   front와 back의 연결
   front의 emit 이벤트명과 back의 on의 이벤트명에 같은 이름을 사용해야 함
   */
-  roomName = input.value;
-  input.value = "";
+  roomName = roomInput.value;
 }
 
 form.addEventListener("submit", handleRoomSubmit);
 
-socket.on("welcome", () => {
-  addMessage("Someone joined!");
+socket.on("welcome", (nickname) => {
+  addMessage(`${nickname} joined!`);
 });
 
-socket.on("bye", () => {
-  addMessage("Someone disconnected");
+socket.on("bye", (nickname) => {
+  addMessage(`${nickname} disconnected`);
 });
 
 //socket.on("show_message", (message) => addMessage(message)); //아래와 같다

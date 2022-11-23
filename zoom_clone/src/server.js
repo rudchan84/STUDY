@@ -62,21 +62,23 @@ io.on("connection", (socket) => {
   socket.onAny((event) => {
     console.log(`>> socket event: ${event}`);
   });
-  socket.on("enter_room", (roomName, done) => {
+  socket.on("enter_room", (roomName, nickName, done) => {
     console.log(socket.rooms);
     socket.join(roomName);
     console.log(socket.rooms);
+    socket["nickname"] = nickName;
+    console.log(socket.nickname);
     done();
-    socket.to(roomName).emit("welcome"); //방에 메세지 보내기, document 참고
+    socket.to(roomName).emit("welcome", socket.nickname); //방에 메세지 보내기, document 참고
   });
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) => {
       console.log(`bye: ${room}`);
-      socket.to(room).emit("bye");
+      socket.to(room).emit("bye", socket.nickname);
     });
   });
   socket.on("send_message", (message, roomName, done) => {
-    socket.to(roomName).emit("show_message", message);
+    socket.to(roomName).emit("show_message", `${socket.nickname} : ${message}`);
     done();
   });
 });
