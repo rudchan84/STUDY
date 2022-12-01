@@ -1,4 +1,3 @@
-
 //io() : 자동으로 back-end socket.io와 연결해 주는 fn
 const socket = io();
 
@@ -17,11 +16,13 @@ function addMessage(message) {
   ul.appendChild(li);
 }
 
-function handleMessageSubmit(event){
+function handleMessageSubmit(event) {
   event.preventDefault();
   const input = room.querySelector("#msg input");
   const value = input.value;
-  socket.emit("send_message", value, roomName, () => addMessage(`You: ${value}`));
+  socket.emit("send_message", value, roomName, () =>
+    addMessage(`You: ${value}`)
+  );
   input.value = "";
 }
 
@@ -34,7 +35,7 @@ function showRoom() {
   msgForm.addEventListener("submit", handleMessageSubmit);
 }
 
-function handleRoomSubmit(event){
+function handleRoomSubmit(event) {
   event.preventDefault();
   const roomInput = document.querySelector("#roomname");
   const nickName = document.querySelector("#nick");
@@ -66,3 +67,16 @@ socket.on("bye", (nickname) => {
 
 //socket.on("show_message", (message) => addMessage(message)); //아래와 같다
 socket.on("show_message", addMessage);
+
+socket.on("room_change", (rooms) => {
+  const roomList = welcome.querySelector("ul");
+  roomList.innerHTML = "";
+  if (rooms.length === 0) {
+    return;
+  }
+  rooms.forEach((room) => {
+    const li = document.createElement("li");
+    li.innerText = room;
+    roomList.append(li);
+  });
+});

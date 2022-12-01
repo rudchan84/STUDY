@@ -58,6 +58,21 @@ wss.on("connection", (socket) => {
   });
 }); */
 
+function getPublicRooms() {
+  const {
+    sockets: {
+      adapter: { sids, rooms }, //adapter 안의 sids, rooms 는 map이라는 자료구조로 get, set 의 함수로 읽고, 넣음
+    },
+  } = io;
+  const publicRooms = [];
+  rooms.forEach((_, key) => {
+    if (sids.get(key) === undefined) {
+      publicRooms.push(key);
+    }
+  });
+  return publicRooms;
+}
+
 io.on("connection", (socket) => {
   socket.onAny((event) => {
     console.log(`>> socket event: ${event}`);
@@ -70,12 +85,16 @@ io.on("connection", (socket) => {
     console.log(socket.nickname);
     done();
     socket.to(roomName).emit("welcome", socket.nickname); //방에 메세지 보내기, document 참고
+    io.sockets.emit("room_change", getPublicRooms());
   });
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) => {
       console.log(`bye: ${room}`);
       socket.to(room).emit("bye", socket.nickname);
     });
+  });
+  socket.on("disconnect", () => {
+    io.sockets.emit("room_change", getPublicRooms());
   });
   socket.on("send_message", (message, roomName, done) => {
     socket.to(roomName).emit("show_message", `${socket.nickname} : ${message}`);
