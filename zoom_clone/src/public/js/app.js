@@ -9,6 +9,11 @@ room.hidden = true;
 
 let roomName;
 
+function printRoomUserCount(countRoomUsers) {
+  const h3 = room.querySelector("h3");
+  h3.innerText = `Room: ${roomName} (${countRoomUsers})`;
+}
+
 function addMessage(message) {
   const ul = room.querySelector("ul");
   const li = document.createElement("li");
@@ -26,11 +31,10 @@ function handleMessageSubmit(event) {
   input.value = "";
 }
 
-function showRoom() {
+function showRoom(countRoomUsers) {
   welcome.hidden = true;
   room.hidden = false;
-  const h3 = room.querySelector("h3");
-  h3.innerText = `Room: ${roomName}`;
+  printRoomUserCount(countRoomUsers);
   const msgForm = room.querySelector("#msg");
   msgForm.addEventListener("submit", handleMessageSubmit);
 }
@@ -57,11 +61,13 @@ function handleRoomSubmit(event) {
 
 form.addEventListener("submit", handleRoomSubmit);
 
-socket.on("welcome", (nickname) => {
+socket.on("welcome", (nickname, countRoomUsers) => {
+  printRoomUserCount(countRoomUsers);
   addMessage(`${nickname} joined!`);
 });
 
-socket.on("bye", (nickname) => {
+socket.on("bye", (nickname, countRoomUsers) => {
+  printRoomUserCount(countRoomUsers);
   addMessage(`${nickname} disconnected`);
 });
 

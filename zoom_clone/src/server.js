@@ -73,6 +73,10 @@ function getPublicRooms() {
   return publicRooms;
 }
 
+function countRoomUsers(roomName) {
+  return io.sockets.adapter.rooms.get(roomName)?.size; //?는 없는 roomName을 넣었을 경우 서버 crash를 방지
+}
+
 io.on("connection", (socket) => {
   socket.onAny((event) => {
     console.log(`>> socket event: ${event}`);
@@ -83,14 +87,16 @@ io.on("connection", (socket) => {
     console.log(socket.rooms);
     socket["nickname"] = nickName;
     console.log(socket.nickname);
-    done();
-    socket.to(roomName).emit("welcome", socket.nickname); //방에 메세지 보내기, document 참고
+    done(countRoomUsers(roomName));
+    socket
+      .to(roomName)
+      .emit("welcome", socket.nickname, countRoomUsers(roomName)); //방에 메세지 보내기, document 참고
     io.sockets.emit("room_change", getPublicRooms());
   });
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) => {
       console.log(`bye: ${room}`);
-      socket.to(room).emit("bye", socket.nickname);
+      socket.to(room).emit("bye", socket.nickname, countRoomUsers(room) - 1); //방을 떠나기 전 나를 뺀 숫자를 전달
     });
   });
   socket.on("disconnect", () => {
