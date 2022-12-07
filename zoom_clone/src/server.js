@@ -1,7 +1,8 @@
 //▼express를 import하고 express application을 구성
-import express from "express";
-import SocketIO from "socket.io";
 import http from "http";
+import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
+import express from "express";
 //import WebSocket from "ws";
 
 const app = express();
@@ -24,9 +25,18 @@ app.get("/*", (req, res) => res.redirect("/"));
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
 
-const server = http.createServer(app);
+const httpServer = http.createServer(app);
 //const wss = new WebSocket.Server({ server });
-const io = SocketIO(server);
+const io = new Server(httpServer, {
+  cors: {
+    origin: ["https://admin.socket.io"],
+    credentials: true,
+  },
+});
+
+instrument(io, {
+  auth: false,
+});
 
 // ▼ vanilla JS 의 형식
 //function handleConnection(socket) {
@@ -108,5 +118,5 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, handleListen);
+httpServer.listen(3000, handleListen);
 //app.listen(3000, handleListen);

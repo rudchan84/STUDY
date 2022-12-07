@@ -163,3 +163,22 @@ websocket의 부가 기능이 아니다
 ##### SOCKET.IO Install
 
 npm i socket.io
+
+#### 2022.12.07
+
+##### SOCKET.IO admin npm
+
+socket.io에서 지원하는 admin UI 페이지
+
+> 설치
+
+`npm i "@socket.io/admin-ui"`
+
+> 진입
+
+https://admin.socket.io/ 으로 접속하여
+*Server URL : http://localhost:3000
+Advanced options 에서
+*Admin namespace : /admin
+*Path : 공백
+Connect !
