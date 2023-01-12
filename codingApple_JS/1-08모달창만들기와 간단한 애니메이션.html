@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>모달창 만들기와 간단한 애니메이션</title>
+  </head>
+
+  <body>
+    <!-- 모달창 -->
+    <!-- 모든 html의 맨 앞에 노출되는 이런 화면은
+    html의 맨 위에 작성한다 -->
+    <div class="black-bg">
+      <div class="white-bg">
+        <h4>로그인하세요</h4>
+        <button class="btn btn-danger" id="close">닫기</button>
+      </div>
+    </div>
+
+    <button id="btn-login">로그인</button>
+  </body>
+</html>
+
+<style>
+  /* 모달창 */
+  .black-bg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    padding: 30px;
+    /* display: none; */
+    visibility: hidden; /* display-none을 주면 애니메이션이 잘 동작하지 않기 때문에 visibility 사용 */
+    opacity: 0; /* animation을 위함 */
+    transition: all 0.3s;
+  }
+  .white-bg {
+    background: white;
+    border-radius: 5px;
+    padding: 30px;
+  }
+  .show-modal {
+    /* display: block; */
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /*
+  one-way UI Animation 만드는 법 (A상태 > B상태 단방향)
+  1.시작스타일 만듦(class로)
+  2.최종스타일 만듦(class로)
+  3.원할 때 최종스타일로 변하라고 JS코드 짬
+  4.시작스타일에 transition 추가
+  */
+</style>
+
+<script>
+  //클릭 시 로그인하세요 띄우기(JS)
+  // document.querySelector("#btn-login").addEventListener("click", () => {
+  //   document.querySelector(".black-bg").classList.add("show-modal");
+  // });
+
+  //닫기 버튼(JS)
+  // document.querySelector("#close").addEventListener("click", () => {
+  //   document.querySelector(".black-bg").classList.remove("show-modal");
+  // });
+
+  //클릭 시 로그인하세요 띄우기(JQuery)
+  $("#btn-login").on("click", () => {
+    $(".black-bg").addClass("show-modal");
+  });
+
+  //닫기 버튼(JQuery)
+  $("#close").on("click", () => {
+    $(".black-bg").removeClass("show-modal");
+  });
+
+  //클릭 시 로그인하세요 띄우기(JQuery - Animation)
+  //JS에서 많은 일을 처리해서 성능이 저하..
+  //CSS로 처리하자!
+  // $("#btn-login").on("click", () => {
+  //   $(".black-bg").fadeIn();
+  // });
+
+  //닫기 버튼(JQuery - Animation)
+  // $("#close").on("click", () => {
+  //   $(".black-bg").fadeOut();
+  // });
+
+  //위에서 아래로 Animation은
+  //예를 들면 서브메뉴 이렇게 접히는건
+  //서브메뉴의 height를 0px 에서 400px 로 조절하면 되는데
+  //overflow : hidden 이런것도 있으면 될듯 합니다.
+</script>
