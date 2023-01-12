@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section id="game">
+      <h2>숫자를 입력하세요</h2>
+      <input type="number" required />
+      <button id="btn-game">입력</button>
+      <div id="numberResult"></div>
+    </section>
+
+    <section id="checkScore">
+      <h2>합격했냐? 점수를 입력하세요</h2>
+      과목1: <input type="number" id="subject1" max="100" min="0" /><br />
+      과목2: <input type="number" id="subject2" max="100" min="0" />
+      <button id="btn-score">입력</button>
+      <div id="scoreResult"></div>
+    </section>
+  </body>
+
+  <script>
+    //3의 배수에서 박수치는 게임, 9의 배수는 박수2번************
+    const inputVal = document.querySelector("input");
+    const buttonGame = document.querySelector("#btn-game");
+
+    function 삼육구게임(입력) {
+      let result = document.querySelector("#numberResult");
+      if (입력 === "") {
+        result.innerText = "숫자를 입력하세요";
+      } else if (입력 % 9 === 0) {
+        result.innerText = "박수박수";
+      } else if (입력 % 3 === 0) {
+        result.innerText = "박수";
+      } else {
+        result.innerText = "통과";
+      }
+    }
+
+    buttonGame.addEventListener("click", function () {
+      삼육구게임(inputVal.value);
+    });
+
+    //check Score***********************************************
+    const buttonScore = document.querySelector("#btn-score");
+    const score1 = document.querySelector("#subject1");
+    const score2 = document.querySelector("#subject2");
+
+    function 점수체크(sub1, sub2) {
+      sub1 = parseInt(sub1);
+      sub2 = parseInt(sub2);
+
+      let result = document.querySelector("#scoreResult");
+
+      //NaN은 false 이므로 !를 붙임
+      if (!sub1 || !sub2) {
+        result.innerText = "숫자를 입력하세요";
+      } else if (sub1 + sub2 >= 120 && sub1 >= 40 && sub2 >= 40) {
+        result.innerText = "합격 ^~^";
+      } else {
+        result.innerText = "불합격 T-T";
+      }
+    }
+
+    buttonScore.addEventListener("click", function () {
+      점수체크(score1.value, score2.value);
+    });
+  </script>
+</html>
