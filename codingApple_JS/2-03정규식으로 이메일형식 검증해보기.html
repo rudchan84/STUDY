@@ -16,7 +16,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <title>input change 이벤트와 and or 연산자</title>
+    <title>setTimeout 타이머주는 법</title>
   </head>
 
   <body>
@@ -39,9 +39,24 @@
       </div>
     </div>
 
+    <!-- navigation bar -->
+    <div class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <span class="navbar-brand">JSShop</span>
+        <span class="badge bg-dark ms-auto mx-3">Dark 🔄</span>
+        <button class="navbar-toggler">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+
     <div class="main-bg">
       <h4>Shirts on Sale</h4>
       <button id="btn-login" class="btn btn-danger">로그인</button>
+    </div>
+
+    <div class="alert alert-danger">
+      <span>5</span>초 이내 구매 시 사은품 증정!
     </div>
   </body>
 </html>
@@ -96,9 +111,17 @@
     if (id.value == "") {
       e.preventDefault();
       alert("아이디 입력 안함?");
+    } else if (!/\S+@\S+\.\S+/.test(id.value)) {
+      //이메일 형식 검사 추가
+      e.preventDefault();
+      alert("이메일 형식이 아님!");
     } else if (pw.value == "") {
       e.preventDefault();
       alert("password 입력 안함?");
+    } else if (!/[A-Z]/.test(pw.value)) {
+      //비밀번호에 대문자 검사 추가
+      e.preventDefault();
+      alert("비밀번호에 대문자 하나를 넣으세요");
     } else if (pw.value.length < 6) {
       e.preventDefault();
       alert("password가 6자 미만");
@@ -119,4 +142,59 @@
   //false: 0, '', null, undefined, NaN
 
   //and or 는 쉬워서 생략~
+
+  //dark mode 버튼을 누르면 toggle 되도록 해보자
+  //let, const : 재사용 불가(실수 방지)
+  //var   Function-scoped 재선언O 재할당O
+  //let   {Block-scoped}  재선언X 재할당O
+  //const {Block-scoped}  재선언X 재할당X
+  let clickCnt = 0;
+
+  $(".badge").on("click", function () {
+    //clickCnt++
+    clickCnt += 1;
+    //clickCnt = clickCnt + 1
+    if (clickCnt % 2 == 0) {
+      $(".badge").text("Dark 🔄");
+    } else {
+      $(".badge").text("Light 🔄");
+    }
+  });
+
+  //5초 후 안보이게, 1초마다 남은시간 변경
+  let second = 5;
+  function limitPopupClose() {
+    second -= 1;
+    const popupHTML = document.querySelector(".alert");
+
+    popupHTML.querySelector("span").innerHTML = second;
+
+    if (second == 0) {
+      popupHTML.style.display = "none";
+      clearInterval(interval); //타이머 삭제
+    }
+  }
+
+  //setTimeout(limitPopupClose, 5000);
+  let interval = setInterval(limitPopupClose, 1000);
+
+  //문자 검사
+  "문자".includes("검사할글자");
+
+  //정규식을 이용하여 문자검사
+  //regex test 구글링 하면 테스트 사이트 많이 나옴
+  /*
+  /ab/.test("abcde");
+  /[a-z]/.test("검사할글자"); //a ~ z 중 아무 글자 1개
+  /[A-Z]/.test("검사할글자"); //A ~ Z 중 아무 글자 1개
+  /[a-zA-Z]/.test("검사할글자"); //아무 알파벳 1개
+  /[ㄱ-ㅎ가-힣]/.test("검사할글자"); //아무 한글 1개 모음은 안넣었으니 빼고 모음은 ㅏ-ㅣ
+  /\S/.test("검사할글자"); //아무 문자,숫자 1개(특수기호포함)
+  /^a/.test("검사할글자"); //a로 시작하는지?
+  /a$/.test("검사할글자"); //a로 끝나는지?
+  /a|b/.test("검사할글자"); //a or b 가 있는지?
+  /\S+@\S+\.\S+/.test("검사할글자"); //이메일 형식 검사 .은 정규식 역할이 있으므로 앞에 역슬래시 추가 +:왼쪽문자 반복검색
+  */
+  //정리 잘 한 블로그
+  //https://inpa.tistory.com/entry/JS-📚-정규식-RegExp-누구나-이해하기-쉽게-정리
 </script>

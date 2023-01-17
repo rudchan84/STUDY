@@ -16,7 +16,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <title>input change 이벤트와 and or 연산자</title>
+    <title>변수문법과 dark mode 버튼 만들기</title>
   </head>
 
   <body>
@@ -36,6 +36,17 @@
           <button type="submit" class="btn btn-primary">전송</button>
           <button type="button" class="btn btn-danger" id="close">닫기</button>
         </form>
+      </div>
+    </div>
+
+    <!-- navigation bar -->
+    <div class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <span class="navbar-brand">JSShop</span>
+        <span class="badge bg-dark ms-auto mx-3">Dark 🔄</span>
+        <button class="navbar-toggler">
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </div>
     </div>
 
@@ -119,4 +130,22 @@
   //false: 0, '', null, undefined, NaN
 
   //and or 는 쉬워서 생략~
+
+  //dark mode 버튼을 누르면 toggle 되도록 해보자
+  //let, const : 재사용 불가(실수 방지)
+  //var   Function-scoped 재선언O 재할당O
+  //let   {Block-scoped}  재선언X 재할당O
+  //const {Block-scoped}  재선언X 재할당X
+  let clickCnt = 0;
+
+  $(".badge").on("click", function () {
+    //clickCnt++
+    clickCnt += 1;
+    //clickCnt = clickCnt + 1
+    if (clickCnt % 2 == 0) {
+      $(".badge").text("Dark 🔄");
+    } else {
+      $(".badge").text("Light 🔄");
+    }
+  });
 </script>
