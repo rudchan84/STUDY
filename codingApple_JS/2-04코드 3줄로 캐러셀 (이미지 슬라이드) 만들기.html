@@ -16,7 +16,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <title>정규식으로 이메일형식 검증해보기</title>
+    <title>코드 3줄로 캐러셀(이미지 슬라이드) 만들기</title>
   </head>
 
   <body>
@@ -56,6 +56,30 @@
     </div>
 
     <div class="alert alert-danger"><span>5</span>초 이내 구매 시 사은품 증정!</div>
+
+    <!-- carousel -->
+    <div id="slide-wrap">
+      <div class="slide-container">
+        <div class="slide1">slide1</div>
+        <div class="slide2">slide2</div>
+        <div class="slide3">slide3</div>
+        <div class="slide4">slide4</div>
+      </div>
+    </div>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button class="btn-carousel-pre btn btn-secondary"><</button>
+      </div>
+      <div class="btn-group mr-2" role="group" aria-label="Second group">
+        <button class="btn-slide1 btn btn-secondary">1</button>
+        <button class="btn-slide2 btn btn-secondary">2</button>
+        <button class="btn-slide3 btn btn-secondary">3</button>
+        <button class="btn-slide4 btn btn-secondary">4</button>
+      </div>
+      <div class="btn-group" role="group" aria-label="Third group">
+        <button class="btn-carousel-next btn btn-secondary">></button>
+      </div>
+    </div>
   </body>
 </html>
 
@@ -87,6 +111,34 @@
   .main-bg {
     padding: 100px 20px;
     background: lightgray;
+  }
+
+  /*carousel*/
+  #slide-wrap {
+    overflow: hidden;
+  }
+  .slide-container {
+    width: 400vw;
+    transition: all 0.3s;
+  }
+
+  .slide-container div {
+    width: 100vw;
+    height: 100px;
+    float: left;
+  }
+
+  .slide1 {
+    background-color: goldenrod;
+  }
+  .slide2 {
+    background-color: skyblue;
+  }
+  .slide3 {
+    background-color: orange;
+  }
+  .slide4 {
+    background-color: greenyellow;
   }
 </style>
 
@@ -174,23 +226,66 @@
   //setTimeout(limitPopupClose, 5000);
   let interval = setInterval(limitPopupClose, 1000);
 
-  //문자 검사
-  "문자".includes("검사할글자");
+  //carousel
+  let 지금사진 = 1;
+  document.querySelector(".btn-slide1").addEventListener("click", function () {
+    지금사진 = 1;
+    document.querySelector(".slide-container").style.transform = "translateX(0vw)";
+  });
+  document.querySelector(".btn-slide2").addEventListener("click", function () {
+    지금사진 = 2;
+    document.querySelector(".slide-container").style.transform = "translateX(-100vw)";
+  });
+  document.querySelector(".btn-slide3").addEventListener("click", function () {
+    지금사진 = 3;
+    document.querySelector(".slide-container").style.transform = "translateX(-200vw)";
+  });
+  document.querySelector(".btn-slide4").addEventListener("click", function () {
+    지금사진 = 4;
+    document.querySelector(".slide-container").style.transform = "translateX(-300vw)";
+  });
 
-  //정규식을 이용하여 문자검사
-  //regex test 구글링 하면 테스트 사이트 많이 나옴
-  /*
-  /ab/.test("abcde");
-  /[a-z]/.test("검사할글자"); //a ~ z 중 아무 글자 1개
-  /[A-Z]/.test("검사할글자"); //A ~ Z 중 아무 글자 1개
-  /[a-zA-Z]/.test("검사할글자"); //아무 알파벳 1개
-  /[ㄱ-ㅎ가-힣]/.test("검사할글자"); //아무 한글 1개 모음은 안넣었으니 빼고 모음은 ㅏ-ㅣ
-  /\S/.test("검사할글자"); //아무 문자,숫자 1개(특수기호포함)
-  /^a/.test("검사할글자"); //a로 시작하는지?
-  /a$/.test("검사할글자"); //a로 끝나는지?
-  /a|b/.test("검사할글자"); //a or b 가 있는지?
-  /\S+@\S+\.\S+/.test("검사할글자"); //이메일 형식 검사 .은 정규식 역할이 있으므로 앞에 역슬래시 추가 +:왼쪽문자 반복검색
+  /* 혼자 만들어 봄
+  //이전버튼
+  document.querySelector(".btn-carousel-pre").addEventListener("click", function () {
+    const currentX = parseInt(document.querySelector(".slide-container").style.transform.substring(12, 13));
+    document.querySelector(".slide-container").style.transform = `translateX(-${currentX - 1}00vw)`;
+  });
+
+  //다음버튼
+  document.querySelector(".btn-carousel-next").addEventListener("click", function () {
+    const slideContainer = document.querySelector(".slide-container");
+    const sliderLength = document.querySelectorAll(".slide-container div").length;
+    const currentX = parseInt(slideContainer.style.transform.substring(12, 13));
+    if (!currentX) {
+      slideContainer.style.transform = `translateX(-100vw)`;
+    } else if (sliderLength == currentX + 1) {
+      //마지막 슬라이드면
+      return;
+    } else {
+      slideContainer.style.transform = `translateX(-${currentX + 1}00vw)`;
+    }
+  });
   */
-  //정리 잘 한 블로그
-  //https://inpa.tistory.com/entry/JS-📚-정규식-RegExp-누구나-이해하기-쉽게-정리
+
+  /* 힌트를 얻어 만들어 봄 
+  사진이 늘어나도 잘 되는 확장성 좋은 버튼 만들기*/
+  //이전버튼
+  document.querySelector(".btn-carousel-pre").addEventListener("click", function () {
+    if (지금사진 > 1) {
+      지금사진 -= 1;
+      document.querySelector(".slide-container").style.transform = `translateX(-${지금사진 - 1}00vw)`;
+      //console.log(지금사진);
+    }
+  });
+
+  //다음버튼
+  document.querySelector(".btn-carousel-next").addEventListener("click", function () {
+    const sliderLength = document.querySelectorAll(".slide-container div").length;
+    if (sliderLength > 지금사진) {
+      지금사진 += 1;
+      document.querySelector(".slide-container").style.transform = `translateX(-${지금사진 - 1}00vw)`;
+      //console.log(지금사진);
+    }
+  });
 </script>
