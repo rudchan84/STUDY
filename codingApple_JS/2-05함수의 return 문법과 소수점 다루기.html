@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2-05함수의 return 문법과 소수점 다루기</title>
+  </head>
+  <body></body>
+  <script>
+    console.log(1.1 + 0.3); //1.4000000000000001
+
+    /*
+    return
+    1.함수 종료 기능
+    2.퉤 하고 변수를 뱉는 기능
+    */
+
+    /*
+    소수점 연산 시 주의!
+    1.소수점에 전부 10을 곱해서 연산 후 10으로 나누던가
+    2.소수점 관련 라이브러리를 쓰던가
+    3.연산결과를 반올림 하던가
+    */
+
+    function vat(a) {
+      return a * 1.1;
+      //1.1을 2진법으로 바꾸면 1.000110011001100110011.. 1.0001100110011001101(이렇게 저장함)
+    }
+
+    //소수점 반올림 하기
+    function vat2(a) {
+      var num = (a * 1.1).toFixed(2); //소수점 반올림해주세요 2자리까지 보이게
+      return num;
+    }
+
+    console.log(vat(55555)); //61110.50000000001
+    console.log(vat2(55555)); //61110.50 : 문자임
+    //다시 숫자로
+    console.log(parseInt(vat2(55555)));
+
+    //Q1. 함수에 분과 초를 차례로 파라미터로 입력하면 ms단위로 바꿔서 뱉어주는 함수를 만들어봅시다.
+    //(1초 == 1000ms 입니다)
+    function convertms(min, sec) {
+      totalSec = min * 60 + sec;
+      return totalSec * 1000;
+    }
+
+    console.log(convertms(1, 30));
+
+    //Q2. 가격을 파라미터로 입력하면 10% 할인가를 뱉는 함수를 만들어봅시다.
+    //근데 첫 구매여부도 true/false로 둘째파라미터에 입력해서 첫 구매가 맞을 경우 추가로 1.5 달러도 할인해줘야합니다.
+    //주의사항은 가격으로 10.3 이런거 넣으면 뒤에 소수점 길게 나올 수도 있으니 알아서 처리해보든가 합시다.
+    function showSalePrice(price, firstBuy) {
+      price = (price * 9) / 10;
+      if (firstBuy) {
+        price = price - 1.5;
+      }
+      return price;
+    }
+
+    console.log(showSalePrice(70, false));
+    console.log(showSalePrice(10.3, false));
+    console.log(showSalePrice(10, true));
+  </script>
+</html>
