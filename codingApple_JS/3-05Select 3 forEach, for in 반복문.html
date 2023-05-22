@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>3-05 Select 3 forEach, for in 반복문</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-3">
+      <div class="card p-3">상품명 / 가격</div>
+    </div>
+
+    <form class="container my-5 form-group">
+      <p>상품선택</p>
+      <select class="type form-select mt-2">
+        <option>모자</option>
+        <option>셔츠</option>
+        <option>바지</option>
+      </select>
+      <select class="size form-select mt-2 hidden">
+        <option>95</option>
+        <option>100</option>
+      </select>
+    </form>
+
+    <script>
+      /*3-05 Select 3 forEach, for in 반복문
+      
+      * forEach 반복문 
+      array 자료 뒤에 붙일 수 있는 forEach() 라는 기본함수
+      forEach(function(data, index){
+        data: 하나하나의 각 데이터
+        index: 몇 번째 실행중인지 숫자 0~
+      })
+
+      var pants = [28, 30, 32];
+      pants.forEach(function(){
+        console.log('안녕')
+      });
+      이렇게 쓰면 pants 안의 데이터 갯수만큼
+      forEach 콜백함수 안에 있는 코드가 실행됩니다.
+      3번 실행될듯요 
+      그래서 array 자료 다룰 때 for 반복문 쓰기 귀찮으면 forEach 뒤에 붙여도 됩니다. 
+
+      Q. 콜백함수 왜넣음?
+      A. 자바스크립트 forEach 만든 사람이 그렇게 쓰래요 
+      */
+      var pants = [28, 30, 32]; // 아무튼 서버에서 가져온 데이터
+
+      const selectType = document.querySelector(".type");
+      selectType.addEventListener("input", function () {
+        // console.log(document.querySelector(".size").classList);
+        // 이벤트리스너 안에서 e.currentTarget 아니면 this 이런거 써도 될듯요
+        if (selectType.value == "셔츠") {
+          document.querySelector(".size").classList.remove("hidden");
+        } else if (selectType.value == "바지") {
+          document.querySelector(".size").classList.remove("hidden");
+          $(".form-select").eq(1).html("");
+          pants.forEach(function (a) {
+            $(".form-select").eq(1).append(`<option>${a}</option>`);
+          });
+        } else {
+          document.querySelector(".size").classList.add("hidden");
+        }
+      });
+
+      /*object 자료 다룰 때 for in 반복문 가능
+      object 자료 갯수만큼 반복문을 돌리고 싶으면 
+      
+      var obj = { name : 'kim', age : 20 }
+      for (var key in obj){
+        console.log('안녕')
+      }
+      for in 반복문 쓰면 됩니다. 
+      그럼 콘솔창에 '안녕'이 2회 출력될듯요 
+      그리고 for in 반복문 쓰면 object 자료 안에 있는 key와 value를 다 출력해볼 수도 있습니다. 
+      지금 key라고 작명하는 부분은 반복문이 돌 때 마다 object자료 안에 있던 key값이 됩니다. 
+      
+      var obj = { name : 'kim', age : 20 }
+
+      for (var key in obj){
+        console.log(key)
+      }
+      출력해보면 진짜로 name, age 잘 나옵니다. 
+      key 말고 실제 자료인 value를 출력하고 싶으면 
+      console.log(obj[key]) 이렇게 써보셈 
+      
+      그래서 반복문의 용도는 2개가 있는데
+      실은 코드 복사붙여넣기용으로 쓰는게 for 반복문이라 했는데 
+      array나 object 자료 전부 꺼내서 쓰고 싶을 때도 반복문을 쓰면 유용합니다. 
+      그래서 
+      1. 코드복붙하고싶으면
+      2. array, object 자료 다 꺼내고 싶을 때 
+      반복문 사용하면 유용합니다. */
+
+      /** arrow function 문법
+      함수 만드는 다른 문법이 있습니다. 특히 콜백함수만들 때 자주 쓰는 방법인데 
+
+      var pants = [28, 30, 32];
+      pants.forEach(function(a){
+        console.log(a)
+      });
+
+      pants.forEach((a) => {
+        console.log(a)
+      });
+      function 키워드 대신 => 화살표를 ( ) 우측에 부착해도 똑같이 함수만들 수 있습니다.
+      저걸 arrow function 이라고 합니다. 
+
+      pants.forEach( a => {
+        console.log(this)
+      });
+      arrow function은 파라미터가 하나면 () 소괄호 생략해도 봐줍니다. 
+      함수 중괄호 안에 return 한 줄 밖에 없으면 { } 중괄호와 return 동시에 생략해도 봐줍니다.
+      그래서 간결하니 콜백함수에 자주 사용하는 사람들이 있습니다.
+      여러분도 쓰고싶으면 쓰셈 
+      그냥 함수와 arrow function의 기능차이는 하나가 있는데
+      함수 안에서 this를 써야할 경우 
+      - 그냥 함수는 함수 안에서 this를 알맞게 재정의해줍니다.
+      - arrow function은 함수 안에서 this를 재정의해주지 않고 바깥에 있던 this를 그대로 씁니다.
+      그래서 이벤트리스너 콜백함수안에서 this를 써야하면 arrow function 쓰면 의도와 다르게 동작할 수도 있습니다.
+      그런데선 쓰지마십시오 */
+    </script>
+  </body>
+</html>

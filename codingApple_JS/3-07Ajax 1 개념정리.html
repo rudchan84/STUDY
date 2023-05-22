@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>3-07Ajax 1 개념정리</title>
+    <style>
+      ul.list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid #ccc;
+      }
+      ul.list::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+      .tab-button {
+        display: block;
+        padding: 10px 20px 10px 20px;
+        float: left;
+        margin-right: -1px;
+        margin-bottom: -1px;
+        color: grey;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .orange {
+        border-top: 2px solid orange;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid white;
+        border-left: 1px solid #ccc;
+        color: black;
+        margin-top: -2px;
+        transition: all 0.3s;
+      }
+      .tab-content {
+        display: none;
+        padding: 10px;
+      }
+      .show {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100" />
+          <h5>Card title</h5>
+          <p>가격 : 70000</p>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="container">
+      <button class="btn btn-danger" id="more">더보기</button>
+    </div>
+
+    <script>
+      var products = [
+        { id: 0, price: 70000, title: "Blossom Dress" },
+        { id: 1, price: 50000, title: "Springfield Shirt" },
+        { id: 2, price: 60000, title: "Black Monastery" },
+      ];
+
+      //맨 아래 숙제
+      for (let i = 0; i < products.length; i++) {
+        let productHTML = `<div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100" />
+          <h5>${products[i].title}</h5>
+          <p>가격 : ${products[i].price}</p>
+        </div>`;
+        $(".row").append(productHTML);
+      }
+
+      /*GET/POST 요청하는 법?
+
+      GET요청은 서버에 있던 데이터를 읽고싶을 때 주로 사용하고
+      POST요청은 서버로 데이터를 보내고 싶을 때 사용합니다.
+      (서버는 유저데이터를 DB에 저장해주는 역할도 해서요)
+      실은 PUT, DELETE 요청도 있긴 합니다.
+
+      GET요청을 날리고 싶으면 가장 쉬운 방법은 브라우저 주소창입니다.
+      거기에 url 적으면 그 곳으로 GET요청을 날려줍니다.
+      진짠지 테스트해보셈
+
+      POST요청을 날리고 싶으면
+      <form action="요청할url" method="post"> 태그 이용하면 됩니다.
+      그럼 폼이 전송되었을 때 POST요청을 날려줍니다.
+
+      근데 GET, POST 요청을 저렇게 날리면 단점이 뭐냐면 브라우저가 새로고침됩니다.*/
+
+      /*
+      AJAX란?
+
+      서버에 GET, POST 요청을 할 때 새로고침 없이 데이터를 주고받을 수 있게 도와주는
+      간단한 브라우저 기능을 AJAX라고 합니다.
+      그거 쓰면 새로고침 없이도 쇼핑몰 상품을 더 가져올 수도 있고
+      새로고침 없이도 댓글을 서버로 전송할 수도 있고
+      그런 기능을 만들 수 있는 것임
+      */
+
+      /*jQuery로 AJAX요청하기
+
+      $.get() 라는 함수를 쓰고 안에 url만 잘 기입하면 됩니다.
+      연습삼아서 https://codingapple1.github.io/hello.txt 여기로 GET요청해보십시오.
+      그럼 인삿말을 하나 가져올 수 있습니다.
+
+      $.get('https://codingapple1.github.io/hello.txt');
+      이러면 진짜 데이터 가져옵니다.
+      안되면 html파일 미리보기가 제대로 안떠있는 것입니다.
+      브라우저 주소창에 127.0.0.1:어쩌구 이렇게 떠있어야합니다.
+      VScode는 live server 익스텐션 설치하면 됩니다.
+
+      $.get('https://codingapple1.github.io/hello.txt').done(function(data){
+        console.log(data)
+      });
+      근데 가져온 데이터가 어디 들어있냐면
+      .done 아니면 .then 뒤에 붙이고 콜백함수넣고 파라미터 하나 만들면 거기에 들어있습니다.
+      진짜 인삿말 들어있는지 출력해봅시다.
+
+      $.post('url~~', {name : 'kim'})
+      서버로 데이터를 보낼 수 있는 POST요청을 날리고 싶으면 이렇게 씁니다.
+      url 잘 적고 뒤에 서버로 보낼 데이터를 적으면 됩니다.
+      당연히 얘도 .done 이런거 붙이기 가능
+
+      $.get('https://codingapple1.github.io/hello.txt')
+        .done(function(data){
+          console.log(data)
+        })
+        .fail(function(error){
+          console.log('실패함')
+        });
+      ajax 요청 성공시 .done 안에 있는 코드를 실행해줍니다.
+      ajax 요청 실패시 .fail 안에 있는 코드를 실행해줍니다.
+      error 저거 출력해보면 에러관련 정보를 출력해줍니다. 그거 보고 디버깅하면 됩니다.
+      예를 들어 404 이런 에러코드는 url 이 잘못되었다는 뜻입니다.
+
+      done/fail 말고 then/catch 써도 됩니다. */
+
+      /*쌩자바스크립트는 fetch 이런거써서 AJAX 요청가능
+
+      fetch('https://codingapple1.github.io/price.json')
+        .then(res => res.json())
+        .then(function(data){
+          console.log(data)
+        })
+        .catch(function(error){
+          console.log('실패함')
+        });
+      fetch 함수는 Edge 브라우저 이상에서만 동작합니다.
+      근데 코드가 한 줄 더 필요한 이유가 뭐냐면
+
+      서버와 데이터를 주고받을 때는 문자만 주고받을 수 있습니다.
+      array, object 이런거 전송불가능
+      근데 아까 { price : 5000 } 이런 object 무리없이 받아왔죠?
+      어떻게 한거냐면 object를 JSON으로 바꿔서 전송해줘서 그렇습니다.
+
+      array 아니면 object에 따옴표를 다 쳐서 '{ "price" : 5000 }' 대충 이렇게 만들면 JSON이라는 자료가 됩니다.
+      JSON은 문자로 인식하기 때문에 서버와 데이터주고받기가 가능합니다.
+
+      하지만
+      jQuery의 $.get() 이런건 JSON으로 자료가 도착하면 알아서 array/object 자료로 바꿔줍니다.
+      기본함수 fetch() 이런건 JSON으로 자료가 도착하면 알아서 array/object 자료로 바꿔주지 않습니다.
+      그래서 fetch() 로 가져온 결과를 array/object로 바꾸고 싶으면 res.json() 이런 코드 한 줄 추가하면 됩니다.
+
+      그게 귀찮으면 jQuery나 axios 이런 라이브러리 설치하면 ajax가 약간 더 간편해집니다.*/
+
+      /*오늘의 숙제 :
+      list.html로 돌아가서 상품목록 3개 만들었던 html 코드는 싹 지우고
+      자바스크립트 코드짜서 상품목록 3개를 동적으로 생성해오십시오
+      var products 안에 있던 데이터도 html에 잘 표기되어있어야합니다. */
+    </script>
+  </body>
+</html>

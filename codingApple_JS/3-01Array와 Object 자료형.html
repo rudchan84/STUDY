@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>3-01Array와 Object 자료형</title>
+    <style>
+      ul.list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid #ccc;
+      }
+      ul.list::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+      .tab-button {
+        display: block;
+        padding: 10px 20px 10px 20px;
+        float: left;
+        margin-right: -1px;
+        margin-bottom: -1px;
+        color: grey;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .orange {
+        border-top: 2px solid orange;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid white;
+        border-left: 1px solid #ccc;
+        color: black;
+        margin-top: -2px;
+        transition: all 0.3s;
+      }
+      .tab-content {
+        display: none;
+        padding: 10px;
+      }
+      .show {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-3">
+      <div class="card p-3">상품명 / 가격</div>
+    </div>
+    <div class="container mt-5">
+      <ul class="list">
+        <li class="tab-button" data-listId="0">Products</li>
+        <li class="tab-button orange" data-listId="1">Information</li>
+        <li class="tab-button" data-listId="2">Shipping</li>
+      </ul>
+      <div class="tab-content">
+        <p>상품설명입니다. Product</p>
+      </div>
+      <div class="tab-content show">
+        <p>스펙설명입니다. Information</p>
+      </div>
+      <div class="tab-content">
+        <p>배송정보입니다. Shipping</p>
+      </div>
+    </div>
+    <script>
+      function 탭열기(num) {
+        $(".tab-button").removeClass("orange");
+        document.querySelectorAll(".tab-button")[num].classList.add("orange");
+        $(".tab-content").removeClass("show");
+        document.querySelectorAll(".tab-content")[num].classList.add("show");
+      }
+      document.querySelector(".list").addEventListener("click", function (e) {
+        //console.log(e.target.dataset.listid);
+        탭열기(e.target.dataset.listid);
+      });
+
+      /* 3-01Array와 Object 자료형
+      * Array 자료형 : 여러가지 자료를 한곳에 저장하고 싶을 때 사용하는 자료형
+      var car = ['소나타', 50000, 'white']; //자료 저장
+      car[1] = 60000; //자료 수정
+      console.log(car[1]); //자료 꺼내기
+
+      * Object 자료형 : key : value 형태로 자료를 저장
+      var car2 = { name : '소나타', price : 50000 }; //자료 저장
+      car2['name'] = '그랜저'; //자료 수정
+      console.log(car2['name']); //자료 꺼내기1 장점: key값을 변수로 넣을 수 있음!
+      console.log(car2.name); //자료 꺼내기2
+
+      * Array/Object 차이 1
+      var car = ['소나타', 50000, 2030, 'white', false];
+      ▲ array쓰면 저장시엔 간단하겠지만
+      나중에 자료 뽑을 때 약간 어렵습니다.
+      가격뽑을 때 "가격자료가 몇번째 위치에 있었지?" 를 기억해내야합니다.
+      
+      var car = { name : '소나타', price : 50000, year : 2030 };
+      ▲ object로 넣으면 저장은 귀찮겠지만
+      가격뽑을 때 "가격의 key 이름이 뭐였지" 를 기억하면 됩니다.
+      여러분이 컴퓨터가 아니라 인간이면 순서기억보다 key값 기억해내는게 훨씬 쉬울겁니다. 
+      이런 차이점이 있으니 array 쓸지 object 쓸지 잘 고민해봅시다.
+
+      * Array/Object 차이 2
+      array는 순서개념이 있습니다. 왼쪽에 적을 수록 더 앞에 있는 자료임
+      object는 순서개념이 없습니다. 가장 왼쪽에 적었다고 해도 1빠임을 보장해주지 않습니다.
+      그래서 array 자료는 순서개념이 있다보니
+
+      - 가나다순 정렬
+      - x번 자료부터 x번 자료까지 자르기
+      - x번 자료 바꾸기
+      - 맨 뒤, 맨 앞에 자료 넣기
+      - 원하는 자료가 들어있나 검색
+      순서개념이 필요한 많은 것들을 할 수 있습니다. 
+
+      array자료.sort() 하면 가나다순 정렬되고
+      array자료.slice(x, y) 하면 x번부터 y번 전까지 자를 수 있고 
+      array자료.push(x) 하면 x를 맨 뒤에 입력할 수 있고
+      이런 기본함수들이 준비되어있습니다.
+      array 자료 조작이 필요할 때 검색해서 써보도록 합시다.
+      */
+
+      //car2 에 저장된 소나타라는 상품명과 50000이라는 가격을 뽑아서 html에 집어넣어
+      var car2 = { name: "소나타", price: 50000 };
+      document.querySelector(".card").innerHTML = `${car2.name} / ${car2.price}`;
+    </script>
+  </body>
+</html>
