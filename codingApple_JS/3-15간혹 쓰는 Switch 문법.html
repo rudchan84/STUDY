@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3-15 간혹 쓰는 Switch 문법</title>
+  </head>
+  <body>
+    <div id="quiz">
+      <h4>물에 빠지면 누구먼저 구할 것임?</h4>
+      <button>와이프</button>
+      <button>부모님</button>
+      <button>키우던 개</button>
+    </div>
+    <script>
+      document.querySelector("#quiz").addEventListener("click", function (e) {
+        switch (e.target.innerHTML) {
+          case "와이프":
+            alert("와이프를 좋아하시네요");
+            break;
+          case "부모님":
+            alert("효자네요");
+            break;
+          case "키우던 개":
+            alert("역시 사람보단 동물이 더 낫죠");
+            break;
+        }
+      });
+      /*switch 사용법
+
+      let 변수 = 2 + 2;
+
+      switch (변수){
+        case 3 :
+          alert('변수가 3이네요');
+          break
+        case 4 :
+          alert('변수가 4네요');
+          break
+      }
+
+      switch의 소괄호엔 조건식이 아니라 검사해볼 변수를 넣으면 됩니다. 
+      그리고 변수가 3일 때 코드 실행해주세요~ 라고 코드짜고 싶으면
+      case 문법 저렇게 사용하면 됩니다.
+      그리고 코드실행을 끝내고 싶으면 break라는걸 추가해주면 됩니다. 그럼 switch 중괄호를 탈출해줍니다. 
+
+      let 변수 = 2 + 5;
+
+      switch (변수){
+        case 3 :
+          alert('변수가 3이네요');
+          break
+        case 4 :
+          alert('변수가 4네요');
+          break
+        default : 
+          alert('다 아니네')
+      }
+
+      else같은걸 쓰고 싶으면 default : 추가해주면 됩니다.
+      그러면 case에 해당되는게 하나도 없을 때 안에 있는 코드를 실행해줍니다. 
+
+      if로도 모든걸 만들 수 있는데 switch를 쓰는 이유는 
+      변수값에 따른 조건분기를 만들고 싶을 때 조금 더 간편하게 적을 수 있어서 그렇습니다.
+      if else보다 괄호가 적으니까요. 그 이유밖에 없습니다. 
+
+
+      이런 식으로 변수 하나의 값에 따라서 각각 다른 기능을 실행하고 싶을 때 쓰면
+      깔끔해보일 수 있습니다. */
+    </script>
+  </body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>3-09array에 자주 쓰는 sort, map, filter 함수</title>
+    <style>
+      ul.list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid #ccc;
+      }
+      ul.list::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+      .tab-button {
+        display: block;
+        padding: 10px 20px 10px 20px;
+        float: left;
+        margin-right: -1px;
+        margin-bottom: -1px;
+        color: grey;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .orange {
+        border-top: 2px solid orange;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid white;
+        border-left: 1px solid #ccc;
+        color: black;
+        margin-top: -2px;
+        transition: all 0.3s;
+      }
+      .tab-content {
+        display: none;
+        padding: 10px;
+      }
+      .show {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100" />
+          <h5>Card title</h5>
+          <p>가격 : 70000</p>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="container">
+      <button class="btn btn-danger" id="more">더보기</button>
+      <button class="btn btn-danger" id="sortPrice">가격순정렬</button>
+      <button class="btn btn-danger" id="sortTitle">상품명정렬</button>
+      <button class="btn btn-danger" id="filterPrice">6만원이하상품만</button>
+    </div>
+
+    <script>
+      var products = [
+        { id: 0, price: 70000, title: "Blossom Dress" },
+        { id: 1, price: 50000, title: "Springfield Shirt" },
+        { id: 2, price: 60000, title: "Black Monastery" },
+      ];
+
+      /*
+      //맨 아래 숙제
+      for (let i = 0; i < products.length; i++) {
+        let productHTML = `<div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100" />
+          <h5>${products[i].title}</h5>
+          <p>가격 : ${products[i].price}</p>
+        </div>`;
+        $(".row").append(productHTML);
+      }
+
+      //더보기 버튼
+      document.querySelector("#more").addEventListener("click", function () {
+        $.get("https://codingapple1.github.io/js/more1.json").done(function (res) {
+          res.forEach((data) => {
+            let productHTML = `<div class="col-sm-4">
+            <img src="https://via.placeholder.com/600" class="w-100" />
+            <h5>${data.title}</h5>
+            <p>가격 : ${data.price}</p>
+          </div>`;
+            $(".row").append(productHTML);
+          });
+        });
+        //fetch("https://codingapple1.github.io/js/more1.json").then((res) => console.log(res));
+      });
+      */
+
+      //위 2개 함수화 하기
+      function showProduct(arr) {
+        arr.forEach((data) => {
+          let productHTML = `
+          <div class="col-sm-4">
+            <img src="https://via.placeholder.com/600" class="w-100" />
+            <h5>${data.title}</h5>
+            <p>가격 : ${data.price}</p>
+          </div>`;
+          $(".row").append(productHTML);
+        });
+      }
+
+      //함수를 사용하여 그리기
+      let moreCnt = 0;
+      if (moreCnt == 0) {
+        showProduct(products);
+      }
+
+      //더보기 버튼을 누를 때 마다 다른 데이터 가져오기
+      //더 이상 없으면 더보기 버튼 숨기기
+      document.querySelector("#more").addEventListener("click", function () {
+        moreCnt++;
+        $.get(`https://codingapple1.github.io/js/more${moreCnt}.json`)
+          .done(function (arr) {
+            showProduct(arr);
+          })
+          .fail(function () {
+            alert("더 이상 없습니다");
+            document.querySelector("#more").style = "display:none;";
+          });
+      });
+
+      //3-09array에 자주 쓰는 sort, map, filter 함수
+      /*array 정렬하는 법 arr.sort()
+      문자정렬
+      var 어레이 = [7,3,5,2,40];
+      어레이.sort(); //[2,3,40,5,7] 문자 정렬을 함
+      var 어레이 = ['b','r','w','a'];
+      어레이.sort(function(a,b){
+        return a < b;
+      });
+      console.log(어레이)
+
+      숫자정렬하기 (이렇게 쓰는 이유는 이렇게 만들어 놔서..)
+      var 어레이 = [7,3,5,2,40];
+      어레이.sort(function(a,b){
+        return a - b //오름차순
+        return b - a //내림차순
+      });
+      console.log(어레이); //2,3,5,7,40
+
+      1. a, b는 array 안의 자료들입니다.
+      2. return 오른쪽이 양수면 a를 오른쪽으로 정렬해줍니다.
+      3. return 오른쪽이 음수면 b를 오른쪽으로 정렬해줍니다.
+      4. 그리고 array 안의 자료들을 계속 뽑아서 a, b에 넣어줍니다.
+      이렇게 동작해서 a - b 저렇게 쓰면 숫자순 정렬이 되는 것입니다.
+
+      예를 들면 a, b가 7과 3일 경우 7 - 3 하면 4가 남습니다.
+      4는 양수죠? 그러면 7을 3보다 오른쪽으로 보내줍니다.
+      그래서 숫자 오름차순 (123순) 정렬이 완성되는 것입니다.
+      */
+
+      /*array에 자주 쓰는 filter 함수 
+      array 자료에서 원하는 자료만 필터링하고 싶으면 filter 함수를 씁니다.
+      
+      var 어레이 = [7,3,5,2,40];
+
+      var 새어레이 = 어레이.filter(function(a){
+        return 조건식
+      }); 
+
+      1. a라고 작명한건 array 에 있던 데이터를 뜻하고
+      2. return 우측에 조건식을 넣으면 조건식에 맞는 a만 남겨줍니다.
+      3. 그리고 filter는 원본을 변형시키지 않는 고마운 함수기 때문에 새로운 변수에 담아써야합니다. 
+
+      var 어레이 = [7,3,5,2,40];
+
+      var 새어레이 = 어레이.filter(function(a){
+        return a < 4
+      }); 
+
+      예를 들어 여러 숫자가 있는데 그 중에 4 미만인 것만 남기고 싶으면 이렇게 쓰면 됩니다.
+      새어레이 출력해보면 [2, 3] 이것만 들어있겠군요. 
+
+      이런거 응용하면 쇼핑몰에서 "6만원 이하 상품만 보기" 이런 필터기능도 만들 수 있는 것입니다.
+      products라는 자료에서 6만원 이하만 필터하고 새로 html 생성하면 될 것 같군요 */
+
+      /*array에 자주 쓰는 map 함수
+      array 안의 자료들을 전부 변형하려면 map 함수를 씁니다.
+
+      var 어레이 = [7,3,5,2,40];
+
+      var 새어레이 = 어레이.map(function(a){
+        return 수식같은거
+      }); 
+
+      1. a라고 작명한건 array 에 있던 데이터를 뜻하고
+      2. return 우측에 변경될 수식같은걸 넣으면 됩니다. 
+      3. 그리고 filter는 원본을 변형시키지 않는 고마운 함수기 때문에 새로운 변수에 담아써야합니다. 
+
+      var 어레이 = [7,3,5,2,40];
+
+      var 새어레이 = 어레이.map(function(a){
+        return a * 4
+      }); 
+
+      예를 들어 array 안의 숫자들을 전부 4를 곱해주고 싶으면 이렇게 코드짜면 됩니다.
+      새어레이 출력해보면 [28, 12, 20, 8, 160] 이게 들어있겠군요. 
+
+      이런거 응용하면 쇼핑몰에서 "달러 -> 원화로 변환하기" 이런 기능도 만들 수 있겠군요.
+      array 안에 있는 숫자들을 달러가격이라고 생각해봅시다. 이걸 전부 원화가격으로 변경하고 싶으면 어떻게하죠?
+      아마 map 써서 1000얼마 곱해주면 끝일듯요.
+
+      (참고)
+      sort 함수는 원본을 변형시켜버립니다. 
+      원본을 변형시켜버리면 나중에 원본으로 되돌아갈 수 없으니까 귀찮아질 수 있어서 
+      array/object 자료 조작시엔 원본을 따로 복사해두고 조작하는 경우도 있습니다. */
+
+      //products 가격 순 정렬해보기
+      document.querySelector("#sortPrice").addEventListener("click", function () {
+        products.sort(function (a, b) {
+          return a.price - b.price;
+        });
+        document.querySelector(".row").innerHTML = "";
+        showProduct(products);
+      });
+
+      //products 상품명 역순 정렬
+      let sortTitleCnt = 0;
+      document.querySelector("#sortTitle").addEventListener("click", function () {
+        if (sortTitleCnt % 2 == 0) {
+          //짝수이면 순서대로
+          products.sort((a, b) => a.title.localeCompare(b.title));
+        } else {
+          //홀수이면 역순
+          products.sort(function (a, b) {
+            if (a.title < b.title) {
+              return 1;
+            } else if (a.title > b.title) {
+              return -1;
+            } else {
+              return 0;
+            }
+          });
+        }
+        document.querySelector(".row").innerHTML = "";
+        showProduct(products);
+        sortTitleCnt++;
+      });
+
+      //6만원 이하 상품만 보기
+      document.querySelector("#filterPrice").addEventListener("click", function () {
+        const filterProducts = products.filter(function (a) {
+          return a.price <= 60000;
+        });
+        document.querySelector(".row").innerHTML = "";
+        showProduct(filterProducts);
+      });
+
+      /*오늘의 숙제 :
+      1. "상품명 다나가순 정렬" 버튼과 기능을 만들어오십시오.
+      누르면 상품이 '다나가' 순으로 정렬되어야합니다.
+      2. "6만원 이하 상품보기" 버튼과 기능을 만들어오십시오.
+      누르면 6만원 이하 상품만 보여야합니다.
+      더보기버튼과 함께 동작하는지 안하는지는 신경안써도 됩니다.*/
+
+      /*
+      응용1. 가나다순 정렬버튼?
+      응용2. <input>을 이용해 유저가 직접 가격을 입력해서 필터하는 기능?
+      응용3. 원래 순서대로 되돌리기 버튼과 기능을 만들고 싶으면?*/
+    </script>
+  </body>
+</html>

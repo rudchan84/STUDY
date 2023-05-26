@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3-12 position : sticky 활용하기</title>
+    <style>
+      .grey {
+        background: lightgrey;
+        height: 2000px;
+        margin-top: 500px;
+      }
+      .image {
+        float: right;
+        width: 400px;
+        position: sticky;
+        top: 20%;
+      }
+      .text {
+        float: left;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body style="background: grey; height: 3000px">
+    <div class="grey">
+      <div class="image"><img src="tomato.jpg" style="width: 100%" /></div>
+      <div class="text">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur vel recusandae consectetur voluptas sed sunt, dicta dolore. Voluptatem,
+        vero totam fugit nisi, optio quisquam, nam ipsum quas tempore veritatis rem!
+      </div>
+    </div>
+    <script>
+      /* 3-12 position : sticky 활용하기
+      position : sticky를 주면
+      1. 스크롤이 되어서 이미지가 보이는 순간
+      2. viewport의 맨 위에서부터 100px 위치에서 고정이 됩니다.
+      3. 그리고 부모 박스를 넘어서 스크롤 되면 이미지도 같이 사라집니다. 
+
+      (주의점) position : sticky는
+      1. 스크롤을 할 만한 부모 박스가 있어야하고
+      2. top 등 좌표속성과 함께 써야 제대로 보입니다. 
+      아무튼 응용하면 남들과는 다른 레이아웃을 만들 수 있습니다. */
+    </script>
+  </body>
+</html>
