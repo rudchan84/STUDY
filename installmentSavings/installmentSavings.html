@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+    <title>옥옥 적금현황</title>
+    <style>
+      body {
+        padding: 5px;
+        background-color: rgb(255, 252, 230);
+      }
+      table {
+        font-size: 14px;
+        border: 1px solid #444444;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #444444;
+        /*empty-cells: hide;*/
+      }
+    </style>
+  </head>
+  <body>
+    <h2>옥옥 적금현황</h2>
+    <h3>금리 : 10%</h3>
+    <h3 id="clock"></h3>
+    <table>
+      <tr>
+        <td></td>
+        <th>날짜</th>
+        <th>금액</th>
+        <th>예치일</th>
+        <th>이자</th>
+      </tr>
+    </table>
+
+    <script>
+      const curDate = new Date();
+      let totalInterest = 0; //이자합계
+      let totalPrincipal = 0; //원금합계
+      let list = [
+        { inDate: new Date("2022-10-19"), amount: 300000 },
+        { inDate: new Date("2022-11-18"), amount: 300000 },
+        { inDate: new Date("2022-12-19"), amount: 300000 },
+        { inDate: new Date("2023-01-20"), amount: 300000 },
+        { inDate: new Date("2023-02-17"), amount: 300000 },
+        { inDate: new Date("2023-03-18"), amount: 300000 },
+        { inDate: new Date("2023-04-19"), amount: 300000 },
+        { inDate: new Date("2023-05-20"), amount: 300000 },
+        { inDate: new Date("2023-06-19"), amount: 300000 },
+        { inDate: new Date("2023-07-21"), amount: -1000000 },
+        { inDate: new Date("2023-07-24"), amount: 300000 },
+        { inDate: new Date("2023-08-21"), amount: 800000 }, //이때만 사이다뱅크로
+        { inDate: new Date("2023-09-19"), amount: 800000 },
+        { inDate: new Date("2023-10-19"), amount: 800000 },
+        { inDate: new Date("2023-11-17"), amount: 800000 },
+        { inDate: new Date("2023-12-20"), amount: 800000 },
+      ];
+
+      //현재 날짜시간
+      getTime(); //시계가 1초 뒤 나오니까 바로 한 번 호출
+      setInterval(getTime, 999);
+
+      //list html add
+      list.forEach(function (potato, index) {
+        const depositDate = getDateDiff(potato.inDate, curDate); //예치일
+        let interest = Math.floor((potato.amount * getDateDiff(potato.inDate, curDate)) / 10 / 365); //이자
+        //interest = interest < 0 ? 0 : interest;
+        totalInterest += interest; //이자합계
+        totalPrincipal += potato.amount; //원금합계
+        const html = `<tr><td>${index + 1}</td><td>${potato.inDate.toLocaleDateString()}</td><td>${potato.amount.toLocaleString()}</td>
+      <td>${depositDate}</td>
+      <td>${interest.toLocaleString()}</td></tr>`;
+        document.querySelector("table").insertAdjacentHTML("beforeend", html);
+        //console.log(totalInterest);
+        //console.log(totalPrincipal);
+      });
+
+      //합계 html add
+      document.querySelector("table").insertAdjacentHTML(
+        "beforeend",
+        `<tr><th colspan=2 style="text-align:center;">합계</th>
+          <th colspan=2>${totalPrincipal.toLocaleString()}</th>
+          <th>${totalInterest.toLocaleString()}</th></tr>
+        <tr><th colspan=2>원금 + 이자 합계</th><th colspan=3>${(totalPrincipal + totalInterest).toLocaleString()}</th></tr>`
+      );
+
+      function getDateDiff(d1, d2) {
+        const date1 = new Date(d1);
+        const date2 = new Date(d2);
+        const diffDate = date1.getTime() - date2.getTime();
+
+        return Math.floor(Math.abs(diffDate / (1000 * 60 * 60 * 24))); // 밀리세컨 * 초 * 분 * 시 = 일
+      }
+
+      function getTime() {
+        const clock = document.querySelector("#clock");
+        const date = new Date();
+        const hour = String(date.getHours()).padStart(2, "0");
+        const minute = String(date.getMinutes()).padStart(2, "0");
+        const second = String(date.getSeconds()).padStart(2, "0");
+        clock.innerText = `오늘 : ${date.toLocaleDateString()} ${hour}:${minute}:${second}`;
+      }
+    </script>
+  </body>
+</html>
