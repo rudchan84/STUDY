@@ -24,8 +24,7 @@
   </head>
   <body>
     <h2>옥옥 적금현황</h2>
-    <h3>금리 : 10%</h3>
-    <h3 id="clock"></h3>
+    <h4>금리 : 10%<br /><span id="clock"></span></h4>
     <table>
       <tr>
         <td></td>
@@ -34,12 +33,20 @@
         <th>예치일</th>
         <th>이자</th>
       </tr>
+      <tr>
+        <td>-</td>
+        <td>한투입출금</td>
+        <td id="freeMoney"></td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
     </table>
 
     <script>
       const curDate = new Date();
       let totalInterest = 0; //이자합계
       let totalPrincipal = 0; //원금합계
+      const freeMoney = 4163307; //한투CMA 금액
       let list = [
         { inDate: new Date("2022-10-19"), amount: 300000 },
         { inDate: new Date("2022-11-18"), amount: 300000 },
@@ -63,6 +70,9 @@
       getTime(); //시계가 1초 뒤 나오니까 바로 한 번 호출
       setInterval(getTime, 999);
 
+      //입출금통장 금액입력
+      document.querySelector("#freeMoney").innerHTML = freeMoney.toLocaleString();
+
       //list html add
       list.forEach(function (potato, index) {
         const depositDate = getDateDiff(potato.inDate, curDate); //예치일
@@ -80,11 +90,13 @@
 
       //합계 html add
       document.querySelector("table").insertAdjacentHTML(
-        "beforeend",
+        "afterbegin",
         `<tr><th colspan=2 style="text-align:center;">합계</th>
           <th colspan=2>${totalPrincipal.toLocaleString()}</th>
           <th>${totalInterest.toLocaleString()}</th></tr>
-        <tr><th colspan=2>원금 + 이자 합계</th><th colspan=3>${(totalPrincipal + totalInterest).toLocaleString()}</th></tr>`
+        <tr><th colspan=2>원금 + 이자 합계</th><th colspan=3>${(totalPrincipal + totalInterest).toLocaleString()}</th></tr>
+        <tr><th colspan=2>적금+입출금 합계</th><th colspan=3>${(totalPrincipal + totalInterest + freeMoney).toLocaleString()}</th></tr>
+        <tr style="height:3px;"></tr>`
       );
 
       function getDateDiff(d1, d2) {
@@ -101,7 +113,7 @@
         const hour = String(date.getHours()).padStart(2, "0");
         const minute = String(date.getMinutes()).padStart(2, "0");
         const second = String(date.getSeconds()).padStart(2, "0");
-        clock.innerText = `오늘 : ${date.toLocaleDateString()} ${hour}:${minute}:${second}`;
+        clock.innerText = `현재날짜 : ${date.toLocaleDateString()} ${hour}:${minute}:${second}`;
       }
     </script>
   </body>
