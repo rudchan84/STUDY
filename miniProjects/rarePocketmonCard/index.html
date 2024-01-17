@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>나 혼자만 마탑주 | bookMarket</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js" language="javascript"></script>
+    <link rel="stylesheet" href="./common/button.css" />
+    <link rel="stylesheet" href="./common/bar.css" />
+    <style>
+      body {
+        margin: 0 auto;
+        max-width: 1020px;
+      }
+      .cover {
+        cursor: pointer;
+        position: relative;
+        border: solid 1px #b8b8b8;
+        display: inline-block;
+        zoom: 1;
+        padding: 0px 0px 0px 0px;
+        margin: 0px;
+      }
+      .box {
+        padding: 5px;
+        border: solid 1px #ababab;
+      }
+      .band_detail {
+        top: 80px;
+        width: 100%;
+        position: absolute;
+        z-index: 3;
+        padding: 4px 0px 4px 0px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #333333;
+        background: rgba(255, 255, 255, 0.8);
+        background: #ffffff \9;
+        filter: Alpha(Opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.6 \9;
+      }
+      .booktitle_detail {
+        font-size: 16px;
+        padding: 0px 0px 12px 0px;
+        font-weight: bold;
+        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+        color: #ffffff;
+      }
+      .author_detail {
+        font-size: 12px;
+        padding: 2px 0px 2px 0px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+      .date_detail {
+        font-size: 12px;
+        padding: 2px 0px 2px 0px;
+        color: rgba(255, 255, 255, 0.6);
+        color: #ffffff \9;
+        filter: Alpha(Opacity=70);
+        opacity: 0.7;
+        -moz-opacity: 0.7 \9;
+      }
+      /* 커버 보기용 css */
+      .black-bg {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 5;
+        padding-top: 30px;
+        visibility: hidden; /* display-none을 주면 애니메이션이 잘 동작하지 않기 때문에 visibility 사용 */
+        opacity: 0; /* animation을 위함 */
+        /*  transition: all 0.3s;*/
+        /*	overflow: auto;*/
+      }
+
+      .black-bg-inner {
+        max-height: 90%;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .black-bg-inner img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .show-modal {
+        visibility: visible;
+        opacity: 1;
+        transition: all 0.3s;
+      }
+
+      .cover:hover {
+        cursor: pointer;
+      }
+
+      .coverOverlay {
+        position: absolute;
+        background: linear-gradient(110deg, transparent 40%, rgba(255, 219, 122, 0.8) 45%, rgba(132, 50, 255, 0.6) 50%, transparent 54%);
+        filter: brightness(1.5) opacity(0.8);
+        mix-blend-mode: color-dodge;
+        background-size: 150% 150%;
+        background-position: 100%;
+      }
+
+      .booklist {
+        padding: 0px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: dashed 1px #b7b7b7;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 최상단  -->
+    <div style="background-color: rgb(254, 169, 29); color: #fff; text-align: right; height: 50px; line-height: 50px">
+      <span>로그인 / 회원가입 / 고객센터</span>
+    </div>
+
+    <!--커버 보기 모달창-->
+    <div class="black-bg">
+      <div class="black-bg-inner">
+        <div class="coverOverlay"></div>
+      </div>
+    </div>
+
+    <!-- 카테고리 -->
+    <div class="BarGray">판무 > 대여 > 퓨전판타지</div>
+
+    <!-- 책요약 -->
+    <div class="bg_gray">
+      <table width="100%" cellpadding="10">
+        <tr>
+          <td width="87" align="center" valign="top">
+            <div class="cover">
+              <div class="band_detail">1권무료</div>
+              <img id="coverSmall" src="./image/cover_small.gif" width="87" />
+            </div>
+          </td>
+          <td valign="top">
+            <div class="booktitle_detail">나 혼자만 마탑주(전15권,완)</div>
+            <div class="author_detail">일제사격 / kw북스 / 퓨전판타지</div>
+            <div class="date_detail">
+              <div>정가:44,800원(세트)</div>
+              <div>등록일:2021-01-19</div>
+            </div>
+            <div style="padding-top: 10px">
+              <input type="button" class="btn black small" value="1권무료대여" />
+              <div class="btn black small">찜하기❤</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 책구매 섹션 -->
+    <div style="padding: 0px">
+      <!-- 세트 구매 박스 -->
+      <div class="box booklist" style="margin: 7px 0px">
+        <div><b>1권 무료대여 + 세트 10%할인!</b><br />3% 적립</div>
+        <div class="btn blue" style="width: 110px; height: 40px"><b>세트구매</b><br />40,320원</div>
+      </div>
+      <!-- 단권구매 리스트 -->
+      <div class="BarBlack booklist"><span style="margin-right: 30px">나 혼자만 마탑주 1</span><span class="btn blue small">무료구매</span></div>
+      <div class="BarBlack booklist"><span style="margin-right: 30px">나 혼자만 마탑주 2</span><span class="btn blue small">3,600원</span></div>
+      <div class="BarBlack booklist"><span style="margin-right: 30px">나 혼자만 마탑주 3</span><span class="btn blue small">3,600원</span></div>
+    </div>
+
+    <!-- 책소개 -->
+    <section>
+      <div class="BarGray">책소개</div>
+      <div style="padding: 10px" class="f14">
+        “프로 헌터? 넌 재능이 없어.”<br /><br />재능 없는 만년 헌터 후보생 김유신.<br />허가 없이 불법 사냥터에 들어갔다가 위기에 빠지지만.
+        <div id="divDesc" style="display: none">
+          오히려 그것이 전화위복의 계기가 되는데.<br /><br />[14대 마탑주가 되었습니다.]<br />[마탑의 모든 소유권을 정상적으로 인계받았습니다.]<br /><br />전
+          세계 헌터들 중 유일무이, 전무후무.<br />마법을 쓸 수 있는 헌터.<br /><br />“마탑주가 되면 뭐가 좋아요?”<br /><br />그 물음에, 마탑을
+          관리하는 아름다운 여인이 대답했다.<br /><br />“당신이 이 행성에서 마법을 독점할 수 있습니다.”
+        </div>
+      </div>
+      <div align="center">
+        <input id="descMore" type="button" class="btn gray small" value="더보기" />
+      </div>
+    </section>
+
+    <!-- 저자소개 -->
+    <div class="BarGray">저자 소개</div>
+    <br />
+
+    <!-- 리뷰 -->
+    <div class="BarGray">리뷰</div>
+
+    <script>
+      //표지보기
+      document.querySelector(".cover").addEventListener("click", openCoverPopup);
+      //표지닫기
+      document.querySelector(".black-bg").addEventListener("click", () => {
+        document.querySelector(".black-bg").classList.remove("show-modal");
+        document.body.style.overflow = "";
+      });
+      //책소개 더보기
+      document.querySelector("#descMore").addEventListener("click", divExtend);
+
+      //커버 모달창
+      function openCoverPopup() {
+        $(".black-bg").addClass("show-modal");
+        document.body.style.overflow = "hidden";
+
+        //최초 클릭 시 html 생성
+        if (!document.querySelector(".coverOverlay").nextElementSibling) {
+          console.log("이미지 생성");
+          const bigCoverUrl = "./image/cover.jpg";
+
+          const image = new Image();
+          image.src = bigCoverUrl;
+
+          image.onload = function () {
+            //큰커버 url 삽입
+            const imgHTML = `<img src="${bigCoverUrl}" alt="큰표지">`;
+            const container = document.querySelector(".black-bg-inner");
+            const overlay = document.querySelector(".coverOverlay");
+            container.insertAdjacentHTML("beforeend", imgHTML);
+
+            //그림이 잘리면 조정(transition 0.3초 이므로 0.3초후 적용, 바로 실행하면 높이값 0(display-none일때 실행되서))
+            setTimeout(function () {
+              const clientHeight = container.clientHeight;
+              const imgHeight = document.querySelector(".black-bg-inner img").clientHeight;
+              const imgWidth = document.querySelector(".black-bg-inner img").clientWidth;
+              //console.log(clientHeight + " / " + imgHeight);
+              if (clientHeight < imgHeight) {
+                document.querySelector(".black-bg-inner img").height = clientHeight;
+              }
+            }, 300);
+
+            //overlay 길이 조정, 중앙배치
+            setTimeout(function () {
+              const img = document.querySelector(".black-bg-inner img");
+              container.clientHeight = img.clientHeight;
+              container.clientWidth = img.clientWidth;
+              document.querySelector(
+                ".coverOverlay"
+              ).style = `top: 50%; left: 50%; transform: translate(-50%, -50%); height: ${img.clientHeight}px; width: ${img.clientWidth}px;`;
+            }, 350);
+
+            //mouse move event
+            container.querySelector(".coverOverlay").addEventListener("mousemove", function (e) {
+              let x = e.offsetX;
+              let y = e.offsetY;
+              const imgHeight = document.querySelector(".black-bg-inner img").clientHeight;
+              const imgWidth = document.querySelector(".black-bg-inner img").clientWidth;
+              let Xa = -40 / imgWidth;
+              let Ya = -40 / imgHeight;
+              let rotateY = Xa * x + 20;
+              let rotateX = Ya * y + 20;
+              container.style = `transform : perspective(750px) rotateY(${rotateY}deg) rotateX(${rotateX}deg);`;
+              overlay.style.backgroundPosition = `${((y / imgHeight) * 100) / 2 + ((x / imgWidth) * 100) / 2}%`;
+              //console.log(rotateX);
+            });
+
+            //touch Event
+            container.querySelector(".coverOverlay").addEventListener("touchmove", function (e) {
+              let x = e.touches[0].clientX;
+              let y = e.touches[0].clientY;
+              const imgHeight = document.querySelector(".black-bg-inner img").clientHeight;
+              const imgWidth = document.querySelector(".black-bg-inner img").clientWidth;
+              let Xa = -40 / imgWidth;
+              let Ya = -40 / imgHeight;
+              let rotateY = Xa * x + 20;
+              let rotateX = Ya * y + 20;
+              container.style = `transform : perspective(750px) rotateY(${rotateY}deg) rotateX(${rotateX}deg);`;
+              overlay.style.backgroundPosition = `${((y / imgHeight) * 100) / 2 + ((x / imgWidth) * 100) / 2}%`;
+            });
+
+            //mouse Out
+            document.querySelector(".black-bg").addEventListener("mouseout", function (e) {
+              // overlay.style.filter = "opacity(0)";
+              console.log(e.offsetY);
+              // container.style.transform = "perspective(750px) rotateY(0deg) rotateX(0deg)";
+            });
+          };
+
+          image.onerror = function () {
+            const imgHTML = `<div style="background: white;border-radius: 5px;padding: 30px;width: 50%;margin: 30px auto;">큰 표지보기를<br>지원하지 않는 책 입니다</div>`;
+            document.querySelector(".black-bg-inner").insertAdjacentHTML("beforeend", imgHTML);
+          };
+        }
+      }
+
+      function divExtend() {
+        $("#divDesc").slideToggle(250);
+      }
+    </script>
+  </body>
+</html>
