@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+    <title>기념일 저금 현황</title>
+    <style>
+      body {
+        padding: 5px;
+        background-color: rgb(255, 252, 230);
+      }
+      table {
+        font-size: 14px;
+        border: 1px solid #444444;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #444444;
+        /*empty-cells: hide;*/
+      }
+      .trBg {
+        background-color: var(--color-accent);
+      }
+    </style>
+  </head>
+  <body>
+    <h2>기념일 저금 현황👨‍👩‍👦</h2>
+    <h4 id="clock"></h4>
+    <div><a href="./installmentSavings.html">옥옥 적금 현황 보러가기 &rarr;</a></div>
+    <table>
+      <tr class="trBg">
+        <td></td>
+        <th>날짜</th>
+        <th>금액</th>
+        <th>비고</th>
+      </tr>
+    </table>
+    <script>
+      let totalAmount = 0;
+      const data = [
+        { inDate: new Date("2022-01-19"), amount: 200000, memo: "옥생일" },
+        { inDate: new Date("2022-02-17"), amount: 200000, memo: "나생일" },
+        { inDate: new Date("2022-12-08"), amount: 200000, memo: "결혼기념일" },
+        { inDate: new Date("2023-01-19"), amount: 200000, memo: "옥생일" },
+        { inDate: new Date("2023-02-17"), amount: 200000, memo: "나생일" },
+        { inDate: new Date("2023-12-08"), amount: 200000, memo: "결혼기념일" },
+        { inDate: new Date("2024-01-19"), amount: 200000, memo: "옥생일" },
+      ];
+
+      //현재 날짜시간
+      getTime(); //시계가 1초 뒤 나오니까 바로 한 번 호출
+      setInterval(getTime, 999);
+
+      data.forEach(function (potato, index) {
+        const html = `<tr>
+          <td>${index + 1}</td><td>${potato.inDate.toLocaleDateString()}</td><td>${potato.amount.toLocaleString()}</td><td>${potato.memo}</td>
+          </tr>`;
+        document.querySelector("table").insertAdjacentHTML("beforeend", html);
+        totalAmount += potato.amount;
+      });
+
+      const sumHtml = `<tr class="trBg"><td></td><td>합계</td><td colspan=2>${totalAmount.toLocaleString()}</td></tr>`;
+      document.querySelector("table").insertAdjacentHTML("beforeend", sumHtml);
+
+      function getTime() {
+        const clock = document.querySelector("#clock");
+        const date = new Date();
+        const hour = String(date.getHours()).padStart(2, "0");
+        const minute = String(date.getMinutes()).padStart(2, "0");
+        const second = String(date.getSeconds()).padStart(2, "0");
+        clock.innerText = `현재날짜 : ${date.toLocaleDateString()} ${hour}:${minute}:${second}`;
+      }
+    </script>
+  </body>
+</html>
