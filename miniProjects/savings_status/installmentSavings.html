@@ -28,18 +28,14 @@
     <div><a href="./anniversarySavings.html">기념일 저금 현황 보러가기 &rarr;</a></div>
     <table>
       <tr>
+        <th colspan="5">🔻적금 내역</th>
+      </tr>
+      <tr id="headerRow">
         <td></td>
         <th>날짜</th>
         <th>금액</th>
         <th>예치일</th>
         <th>이자</th>
-      </tr>
-      <tr>
-        <td>-</td>
-        <td>한투입출금</td>
-        <td id="freeMoney"></td>
-        <td>-</td>
-        <td>-</td>
       </tr>
     </table>
 
@@ -67,16 +63,15 @@
         { inDate: new Date("2023-12-20"), amount: 800000 },
         { inDate: new Date("2024-01-20"), amount: 800000 },
         { inDate: new Date("2024-01-23"), amount: -3500000 },
+        { inDate: new Date("2024-02-19"), amount: 120000 },
       ];
+      list = list.reverse();
 
       //현재 날짜시간
       getTime(); //시계가 1초 뒤 나오니까 바로 한 번 호출
       setInterval(getTime, 999);
 
-      //입출금통장 금액입력
-      document.querySelector("#freeMoney").innerHTML = freeMoney.toLocaleString();
-
-      //list html add
+      //적금내역 생성
       list.forEach(function (potato, index) {
         const depositDate = getDateDiff(potato.inDate, curDate); //예치일
         let interest = Math.floor((potato.amount * getDateDiff(potato.inDate, curDate)) / 10 / 365); //이자
@@ -94,12 +89,26 @@
       //합계 html add
       document.querySelector("table").insertAdjacentHTML(
         "afterbegin",
-        `<tr><th colspan=2 style="text-align:center;">합계</th>
-          <th colspan=2>${totalPrincipal.toLocaleString()}</th>
-          <th>${totalInterest.toLocaleString()}</th></tr>
-        <tr><th colspan=2>원금 + 이자 합계</th><th colspan=3>${(totalPrincipal + totalInterest).toLocaleString()}</th></tr>
-        <tr><th colspan=2>적금+입출금 합계</th><th colspan=3>${(totalPrincipal + totalInterest + freeMoney).toLocaleString()}</th></tr>
-        <tr style="height:3px;"></tr>`
+        `<tr>
+          <th colspan=2>한투입출금</th>
+          <th colspan=3>${freeMoney.toLocaleString()}</th>
+        </tr>
+        <tr></tr>
+        <tr>
+          <th colspan=2>적금 합계</th><th colspan=3>${(totalPrincipal + totalInterest).toLocaleString()}</th>
+        </tr>
+        <tr><th colspan=2>총 합계</th><th colspan=3>${(totalPrincipal + totalInterest + freeMoney).toLocaleString()}</th></tr>
+        <tr style="height:5px;"></tr>`
+      );
+
+      //합계란 입력
+      document.querySelector("#headerRow").insertAdjacentHTML(
+        "afterend",
+        `<tr><th></th>
+          <th style="text-align:center;">합계</th>          
+          <th>${totalPrincipal.toLocaleString()}</th>
+          <th>-</th>
+          <th>${totalInterest.toLocaleString()}</th></tr>`
       );
 
       function getDateDiff(d1, d2) {
