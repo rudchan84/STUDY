@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/common/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="/common/jquery-ui-1.13.2/jquery-ui.min.css" />
+    <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css" /> -->
+    <title>Document</title>
+    <style>
+      body {
+        margin: 10px;
+        background-image: url("/img/a.jpg");
+        background-size: cover;
+      }
+      table,
+      th,
+      td {
+        border-collapse: collapse;
+        font-size: 16px;
+        border: 2px solid #232f57;
+      }
+      th {
+        background: #6807f9;
+        color: aliceblue;
+      }
+      th,
+      td {
+        padding: 10px;
+      }
+      section,
+      form,
+      h1,
+      table {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><a href="/">현황 모아 보기</a></h1>
+
+    <section class="header" style="margin: 10px">
+      <select id="place">
+        <option value="DJ230901">서울시립</option>
+        <option value="YF231001">대림</option>
+      </select>
+      <input type="text" placeholder="날짜" class="btn" id="date" />
+      <input type="hidden" value="" id="q_dayNo" />
+      <input type="button" value="추가" class="btn" id="addBtn" />
+    </section>
+
+    <table id="lists" style="margin: 20px auto">
+      <tr>
+        <th>지점</th>
+        <th>날짜</th>
+        <th>요일</th>
+        <th>현황</th>
+        <th>삭제</th>
+      </tr>
+    </table>
+
+    <form method="POST"></form>
+
+    <script>
+      $.datepicker.setDefaults({
+        dateFormat: "yy-mm-dd",
+        prevText: "이전 달",
+        nextText: "다음 달",
+        monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+        monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+        dayNames: ["일", "월", "화", "수", "목", "금", "토"],
+        dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+        dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+        showMonthAfterYear: true,
+        yearSuffix: "년",
+        minDate: 0,
+      });
+      $("#date").datepicker();
+      $("#place").selectmenu();
+      $(".btn").button();
+      $("#date").on("change", function () {
+        const q_dayNo = new Date($("#date").val()).getDay() + 1;
+        $("#q_dayNo").val(q_dayNo);
+      });
+
+      let lists = [];
+      const LIST_KEY = "lists";
+      const preserveList = document.querySelector("#lists");
+      const checkday = { 1: "일", 2: "월", 3: "화", 4: "수", 5: "목", 6: "금", 7: "토" };
+
+      document.querySelector("#addBtn").addEventListener("click", handleAdd);
+
+      function handleAdd() {
+        const newPlace = document.querySelector("#place").value;
+        const newDate = document.querySelector("#date").value;
+        const newDayNo = document.querySelector("#q_dayNo").value;
+        const newPlaceName = document.querySelector(`option[value=${newPlace}]`).innerText;
+        if (!newDate) {
+          alert("날짜를 선택하세요");
+          return;
+        }
+
+        //중복확인
+        const exists = lists.find((item) => item.place === newPlace && item.date === newDate);
+
+        if (exists) {
+          alert("추가되어 있음");
+          return;
+        }
+
+        //lists array에 추가
+        const item = { place: newPlace, placeName: newPlaceName, date: newDate, q_dayNo: newDayNo, id: Date.now() };
+        lists.push(item);
+        //리스트 그리기
+        paintList(item);
+        //storage에 저장
+        saveList();
+        makeFormInput();
+      }
+
+      function saveList() {
+        localStorage.setItem(LIST_KEY, JSON.stringify(lists));
+      }
+
+      function pastDelete() {
+        //과거 내역 local storage에서 삭제
+        lists = lists.filter((item) => new Date(item.date) > new Date().setHours(0, 0, 0, 0));
+        saveList();
+      }
+
+      function paintList(newList) {
+        const newListTr = document.createElement("tr");
+        const newListTdPlaceName = document.createElement("td");
+        const newListTdDate = document.createElement("td");
+        const newListTdDel = document.createElement("td");
+        // console.log(newList);
+        newListTr.id = newList.id;
+        newListTdPlaceName.innerText = newList.placeName;
+        newListTdDate.innerText = newList.date;
+        const delBtn = document.createElement("button");
+        delBtn.innerText = "❌";
+        delBtn.addEventListener("click", deleteList);
+        newListTr.appendChild(newListTdPlaceName);
+        newListTr.appendChild(newListTdDate);
+        newListTr.insertAdjacentHTML("beforeend", `<td>${checkday[newList.q_dayNo]}</td>`); //요일
+        newListTr.insertAdjacentHTML("beforeend", `<td id="${newList.place}${newList.date}"></td>`); //현황
+        newListTr.appendChild(newListTdDel);
+        newListTdDel.appendChild(delBtn);
+
+        //Li 에 추가
+        preserveList.appendChild(newListTr);
+      }
+
+      //list 에서 삭제
+      function deleteList(event) {
+        const li = event.target.parentElement.parentElement;
+        li.remove();
+
+        //console.dir(event.target.parentElement.id);
+
+        lists = lists.filter((item) => item.id !== parseInt(li.id));
+
+        //Lists = Lists.filter((item) => item.id === event.target.parentElement.id);
+        //Lists = Lists.filter((item) => console.log(item.id, 'ddd', event.target.parentElement.id));
+        saveList();
+        makeFormInput();
+      }
+
+      //form data 만들기
+      function makeFormInput() {
+        let formInputHTML = "";
+        const formHTML = document.querySelector("form");
+        lists.forEach(function (item) {
+          formInputHTML += `<input name="q_fcltyId" type="hidden" value="${item.place}">
+          <input name="q_resveDe" type="hidden" value=${item.date}>
+          <input name="q_dayNo" type="hidden" value=${item.q_dayNo}>
+          `;
+          // formHTML.insertAdjacentHTML("beforeend", formInputHTML);
+        });
+        formInputHTML += `<input type="submit" value="조회" />`;
+        formHTML.innerHTML = formInputHTML;
+        $("input[type=submit]").button();
+      }
+
+      const savedLists = localStorage.getItem(LIST_KEY);
+
+      //localStorage 데이터로 리스트 만들기
+      if (savedLists) {
+        const parsedLists = JSON.parse(savedLists);
+        lists = parsedLists;
+        pastDelete();
+        lists.forEach(paintList);
+        makeFormInput();
+      }
+
+      //backend에서 받은 데이터 처리
+      const data = "<%=JSON.stringify(locals.result)%>";
+      // console.log("data: " + data);
+      // console.log("<%=locals%>");
+      if (data === "&#34;&#34;" || data === "") {
+        console.log("data X");
+      } else {
+        const replaceData = JSON.parse(data.replace(/&#34;/g, '"'));
+        // console.log(JSON.parse(replaceData));
+        console.log("backend 처리");
+        // console.log(replaceData);
+        replaceData.forEach(function (item) {
+          const id = `${item.fcltyId}${item.q_resveDe}`;
+          document.querySelector(`#${id}`).innerHTML += `${item.useBeginTime}<br>`;
+        });
+      }
+
+      // opResveCancel('DJ230701', '7157');
+    </script>
+  </body>
+</html>
