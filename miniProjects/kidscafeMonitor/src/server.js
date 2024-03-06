@@ -51,7 +51,7 @@ app.post("/", async (req, res) => {
         ).json();
         if (!response.result) {
           console.error(`Fetch failed for index ${index}: ${response.status} ${response.statusText}`);
-          continue;
+          return res.redirect("/");
         }
 
         //value만 추출
@@ -72,12 +72,13 @@ app.post("/", async (req, res) => {
           if (index + 1 === q_fcltyId.length) {
             console.log("return 직전");
             // console.log(result);
-            return res.render("index", { result });
+            return res.render("index", { result, resultMsg: new Date().toLocaleString() });
             // return res.send(result);
           }
         }
       } catch (error) {
         console.error(`Error fetching data for index ${index}:`, error);
+        return res.render("index", { error: "error" });
       }
     }
   }

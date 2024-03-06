@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="/common/jquery-ui-1.13.2/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="/common/jquery-ui-1.13.2/jquery-ui.min.css" />
     <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css" /> -->
-    <title>Document</title>
+    <title>현황 모아 보기</title>
     <style>
       body {
         margin: 10px;
@@ -35,6 +36,9 @@
       table {
         text-align: center;
       }
+      form {
+        margin-bottom: 10px;
+      }
     </style>
   </head>
   <body>
@@ -42,8 +46,25 @@
 
     <section class="header" style="margin: 10px">
       <select id="place">
-        <option value="DJ230901">서울시립</option>
-        <option value="YF231001">대림</option>
+        <optgroup label="자주 가는 곳">
+          <option value="DJ230901">서울시립(토일)</option>
+          <option value="YF231001">대림(토)</option>
+        </optgroup>
+        <optgroup label="관악구">
+          <option value="GA240101">난곡동(토일)</option>
+        </optgroup>
+        <optgroup label="마포구">
+          <option value="MP230802">상암동(토)</option>
+        </optgroup>
+        <optgroup label="중랑구">
+          <option value="JR220801">면목4동(토일)</option>
+        </optgroup>
+        <optgroup label="강동구">
+          <option value="GD240101">성내1동(토일)</option>
+        </optgroup>
+        <optgroup label="강서구">
+          <option value="GS230801">발산1동(토)</option>
+        </optgroup>
       </select>
       <input type="text" placeholder="날짜" class="btn" id="date" />
       <input type="hidden" value="" id="q_dayNo" />
@@ -62,6 +83,12 @@
 
     <form method="POST"></form>
 
+    <% if (locals.error) { %>
+    <div id="error" style="text-align: center">데이터 받는 중에 오류가 발생했습니다</div>
+    <%} else if (locals.resultMsg) {%>
+    <div style="text-align: center">조회완료: <%=locals.resultMsg%></div>
+    <%}%>
+
     <script>
       $.datepicker.setDefaults({
         dateFormat: "yy-mm-dd",
@@ -74,7 +101,21 @@
         dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
         showMonthAfterYear: true,
         yearSuffix: "년",
-        minDate: 0,
+        minDate: 0, //과거선택불가
+        beforeShowDay: function (date) {
+          //2주 후 까지만 선택하기
+          const curDate = new Date();
+          const limitDate = new Date(curDate.setDate(curDate.getDay() + 15));
+          //주말만 선택하기
+          const day = date.getDay();
+          const placeName = document.querySelector("#place").options[document.querySelector("#place").selectedIndex].innerText;
+          //토일 여부에 다라 달력 변경
+          if (placeName.includes("토일")) {
+            return [date <= limitDate && day != 1 && day != 2 && day != 3 && day != 4 && day != 5];
+          } else {
+            return [date <= limitDate && day != 0 && day != 1 && day != 2 && day != 3 && day != 4 && day != 5];
+          }
+        },
       });
       $("#date").datepicker();
       $("#place").selectmenu();
@@ -130,18 +171,23 @@
       }
 
       function paintList(newList) {
+        //newList : data Object
         const newListTr = document.createElement("tr");
-        const newListTdPlaceName = document.createElement("td");
-        const newListTdDate = document.createElement("td");
-        const newListTdDel = document.createElement("td");
+        const newListTdPlaceName = document.createElement("td"); //지점
+        const newListTdDate = document.createElement("td"); //날짜
+        const newListTdDel = document.createElement("td"); //삭제
+        const placeNameLink = document.createElement("a"); //지점링크
         // console.log(newList);
         newListTr.id = newList.id;
-        newListTdPlaceName.innerText = newList.placeName;
+        newListTdPlaceName.appendChild(placeNameLink); //지점에 a태그 추가
+        placeNameLink.href = "https://icare.seoul.go.kr/icare/user/kidsCafeResve/BD_selectKidsCafeResveCal.do?q_fcltyId=" + newList.place;
+        placeNameLink.innerText = newList.placeName; //태그에 지점명 추가
         newListTdDate.innerText = newList.date;
         const delBtn = document.createElement("button");
         delBtn.innerText = "❌";
         delBtn.addEventListener("click", deleteList);
-        newListTr.appendChild(newListTdPlaceName);
+        //tr안에 td추가
+        newListTr.appendChild(newListTdPlaceName); //지점
         newListTr.appendChild(newListTdDate);
         newListTr.insertAdjacentHTML("beforeend", `<td>${checkday[newList.q_dayNo]}</td>`); //요일
         newListTr.insertAdjacentHTML("beforeend", `<td id="${newList.place}${newList.date}"></td>`); //현황
@@ -207,7 +253,10 @@
         // console.log(replaceData);
         replaceData.forEach(function (item) {
           const id = `${item.fcltyId}${item.q_resveDe}`;
-          document.querySelector(`#${id}`).innerHTML += `${item.useBeginTime}<br>`;
+          if (document.querySelector(`#${id}`)) {
+            //과거내역은 삭제되어서 없는 경우가 있음
+            document.querySelector(`#${id}`).innerHTML += `${item.useBeginTime}<br>`;
+          }
         });
       }
 
