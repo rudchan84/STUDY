@@ -57,15 +57,24 @@ app.post("/", async (req, res) => {
         //value만 추출
         const reqResult = response.value;
         //자리가 있는 것만 필터
-        const existsLists = await reqResult.filter((item) => item.waitPsncpa > item.waitNmpr);
+        const existsLists = await reqResult.filter((item) => item.waitPsncpa > item.waitNmpr || item.resvePsncpa > item.resveNmpr);
 
         //data 간략화
         if (existsLists) {
-          //날짜 데이터 넣어주기
-          existsLists.forEach((item) => (item.q_resveDe = q_resveDe[index]));
+          //날짜, 빈자리수, 빈예약자리수 데이터 넣어주기
+          existsLists.forEach((item) => {
+            item.q_resveDe = q_resveDe[index];
+            item.emptyCnt = item.resvePsncpa - item.resveNmpr;
+            item.emptyWaitCnt = item.waitPsncpa - item.waitNmpr;
+          });
           //data 간략화
-          const simpleLists = existsLists.map(({ fcltyId, q_resveDe, useBeginTime }) => ({ fcltyId, q_resveDe, useBeginTime }));
-          console.log("fetch end");
+          const simpleLists = existsLists.map(({ fcltyId, q_resveDe, useBeginTime, emptyCnt, emptyWaitCnt }) => ({
+            fcltyId,
+            q_resveDe,
+            useBeginTime,
+            emptyCnt,
+            emptyWaitCnt,
+          }));
           result = await simpleLists.concat(result);
 
           //마지막 데이터에 오면 렌더링

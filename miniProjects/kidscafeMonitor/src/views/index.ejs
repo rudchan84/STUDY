@@ -75,7 +75,6 @@
       <tr>
         <th>지점</th>
         <th>날짜</th>
-        <th>요일</th>
         <th>현황</th>
         <th>삭제</th>
       </tr>
@@ -182,14 +181,15 @@
         newListTdPlaceName.appendChild(placeNameLink); //지점에 a태그 추가
         placeNameLink.href = "https://icare.seoul.go.kr/icare/user/kidsCafeResve/BD_selectKidsCafeResveCal.do?q_fcltyId=" + newList.place;
         placeNameLink.innerText = newList.placeName; //태그에 지점명 추가
-        newListTdDate.innerText = newList.date;
+        newListTdDate.innerText = `${new Date(newList.date).toLocaleDateString("kr-ko", { month: "numeric", day: "numeric" })}(${
+          checkday[newList.q_dayNo]
+        })`;
         const delBtn = document.createElement("button");
         delBtn.innerText = "❌";
         delBtn.addEventListener("click", deleteList);
         //tr안에 td추가
         newListTr.appendChild(newListTdPlaceName); //지점
-        newListTr.appendChild(newListTdDate);
-        newListTr.insertAdjacentHTML("beforeend", `<td>${checkday[newList.q_dayNo]}</td>`); //요일
+        newListTr.appendChild(newListTdDate); //날짜요일
         newListTr.insertAdjacentHTML("beforeend", `<td id="${newList.place}${newList.date}"></td>`); //현황
         newListTr.appendChild(newListTdDel);
         newListTdDel.appendChild(delBtn);
@@ -255,7 +255,7 @@
           const id = `${item.fcltyId}${item.q_resveDe}`;
           if (document.querySelector(`#${id}`)) {
             //과거내역은 삭제되어서 없는 경우가 있음
-            document.querySelector(`#${id}`).innerHTML += `${item.useBeginTime}<br>`;
+            document.querySelector(`#${id}`).innerHTML += `${item.useBeginTime}(${item.emptyCnt}/${item.emptyWaitCnt})<br>`;
           }
         });
       }
