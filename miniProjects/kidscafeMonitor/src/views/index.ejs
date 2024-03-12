@@ -104,7 +104,7 @@
         beforeShowDay: function (date) {
           //2주 후 까지만 선택하기
           const curDate = new Date();
-          const limitDate = new Date(curDate.setDate(curDate.getDay() + 15));
+          const limitDate = new Date(curDate.setDate(curDate.getDate() + 15));
           //주말만 선택하기
           const day = date.getDay();
           const placeName = document.querySelector("#place").options[document.querySelector("#place").selectedIndex].innerText;
