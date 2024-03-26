@@ -117,7 +117,7 @@
         },
       });
       $("#date").datepicker();
-      $("#place").selectmenu();
+      $("#place").selectmenu({ width: 200 });
       $(".btn").button();
       $("#date").on("change", function () {
         const q_dayNo = new Date($("#date").val()).getDay() + 1;
